@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="da" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dansk i ørerne - یادگیری شنیداری دانمارکی</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>🎧 Dansk i ørerne</h1>
+            <p>تقویت شنیداری زبان دانمارکی</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Loading -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>در حال بارگذاری پادکست‌ها...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error" class="error hidden">
+            <p>❌ خطا در بارگذاری پادکست‌ها</p>
+        </div>
+
+        <!-- Podcast List -->
+        <div id="podcast-list" class="podcast-list hidden">
+            <!-- پادکست‌ها به صورت داینامیک اینجا اضافه می‌شوند -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>ساخته شده با ❤️ برای یادگیری زبان دانمارکی</p>
+    </footer>
+
+    <script>
+        // ====================================
+        // منطق دریافت و نمایش پادکست‌ها
+        // ====================================
+
+        const loadingEl = document.getElementById('loading');
+        const errorEl = document.getElementById('error');
+        const podcastListEl = document.getElementById('podcast-list');
+
+        // تابع دریافت لیست پادکست‌ها
+        async function fetchPodcasts() {
+            try {
+                loadingEl.classList.remove('hidden');
+                errorEl.classList.add('hidden');
+
+                // درخواست به API
+                const response = await fetch('http://localhost:3000/api/podcasts');
+                
+                if (!response.ok) {
+                    throw new Error('خطا در دریافت داده‌ها');
+                }
+
+                const podcasts = await response.json();
+                
+                console.log('📊 Podcasts received:', podcasts); // Debug
+                
+                // نمایش پادکست‌ها
+                displayPodcasts(podcasts);
+                
+                loadingEl.classList.add('hidden');
+                podcastListEl.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Error:', error);
+                loadingEl.classList.add('hidden');
+                errorEl.classList.remove('hidden');
+            }
+        }
+
+        // تابع نمایش پادکست‌ها
+        function displayPodcasts(podcasts) {
+            podcastListEl.innerHTML = '';
+
+            podcasts.forEach(podcast => {
+                // استخراج ID از عنوان اگه podcast.id نداره
+                let podcastId = podcast.id;
+                
+                // اگر ID نداره، از episode number استفاده کن
+                if (!podcastId || podcastId === 'undefined') {
+                    const match = podcast.title.match(/#(\d+)/);
+                    podcastId = match ? match[1] : null;
+                }
+                
+                console.log(`Podcast: ${podcast.title}, ID: ${podcastId}`); // Debug
+                
+                const card = document.createElement('div');
+                card.className = 'podcast-card';
+                
+                card.innerHTML = `
+                    <div class="podcast-info">
+                        <h3>${podcast.title}</h3>
+                        <p class="duration">⏱️ ${podcast.duration || 'N/A'}</p>
+                        ${podcast.date ? `<p class="date">📅 ${podcast.date}</p>` : ''}
+                    </div>
+                    <button 
+                        class="play-btn" 
+                        onclick="openPlayer('${podcastId}', '${encodeURIComponent(podcast.title)}')"
+                        ${!podcast.audioUrl || !podcastId ? 'disabled' : ''}
+                    >
+                        ${podcast.audioUrl && podcastId ? '▶️ پخش' : '🔒 به زودی'}
+                    </button>
+                `;
+
+                podcastListEl.appendChild(card);
+            });
+        }
+
+        // تابع باز کردن صفحه پلیر
+        function openPlayer(id, title) {
+            if (!id || id === 'null' || id === 'undefined') {
+                alert('خطا: شناسه پادکست معتبر نیست');
+                return;
+            }
+            console.log(`Opening player for ID: ${id}, Title: ${title}`); // Debug
+            window.location.href = `/player?id=${id}&title=${title}`;
+        }
+
+        // بارگذاری پادکست‌ها هنگام لود صفحه
+        window.addEventListener('DOMContentLoaded', fetchPodcasts);
+    </script>
+</body>
+</html>

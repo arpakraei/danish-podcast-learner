@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="da" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player - Dansk i ørerne</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="/" class="back-btn">← بازگشت</a>
+            <h1 id="podcast-title">در حال بارگذاری...</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="player-container">
+            
+            <!-- Audio Player Section -->
+            <div class="audio-section">
+                <audio id="audio-player" controls>
+                    <source id="audio-source" src="" type="audio/mpeg">
+                    مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
+                </audio>
+                
+                <!-- Whisper Sync Button -->
+                <button id="sync-btn" class="sync-btn">
+                    🎙️ همزمان‌سازی با Whisper
+                </button>
+                
+                <!-- Status Messages -->
+                <div id="sync-status" class="sync-status hidden"></div>
+            </div>
+
+            <!-- Transcript Section -->
+            <div class="transcript-section">
+                <h2>متن پادکست</h2>
+                <div id="transcript-container" class="transcript-container">
+                    <p class="loading-text">در حال بارگذاری متن...</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // ====================================
+        // Player Logic
+        // ====================================
+
+        const audioPlayer = document.getElementById('audio-player');
+        const audioSource = document.getElementById('audio-source');
+        const podcastTitle = document.getElementById('podcast-title');
+        const transcriptContainer = document.getElementById('transcript-container');
+        const syncBtn = document.getElementById('sync-btn');
+        const syncStatus = document.getElementById('sync-status');
+
+        let transcriptData = null; // Will store Whisper response with timestamps
+        let currentSegmentIndex = -1;
+
+        // Get podcast ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const podcastId = urlParams.get('id');
+        const podcastTitleParam = decodeURIComponent(urlParams.get('title') || '');
+
+        console.log('🔍 URL Params:', { podcastId, podcastTitleParam }); // Debug
+
+        // Validate podcast ID
+        if (!podcastId || podcastId === 'undefined' || podcastId === 'null') {
+            transcriptContainer.innerHTML = '<p class="error-text">❌ خطا: شناسه پادکست معتبر نیست</p>';
+            syncBtn.disabled = true;
+        }
+
+        // Update title
+        if (podcastTitleParam) {
+            podcastTitle.textContent = podcastTitleParam;
+        }
+
+        // ====================================
+        // Load Podcast Data
+        // ====================================
+        async function loadPodcast() {
+            if (!podcastId || podcastId === 'undefined' || podcastId === 'null') {
+                console.error('❌ Invalid podcast ID');
+                return;
+            }
+
+            try {
+                console.log(`📡 Fetching podcast ${podcastId}...`);
+                const response = await fetch(`http://localhost:3000/api/podcast/${podcastId}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('✅ Podcast data:', data); // Debug
+
+                // Set audio source
+                if (data.audioUrl) {
+                    audioSource.src = data.audioUrl;
+                    audioPlayer.load();
+                    console.log('🎵 Audio loaded:', data.audioUrl);
+                } else {
+                    console.warn('⚠️ No audio URL found');
+                }
+
+                // Display basic text (before Whisper sync)
+                if (data.text) {
+                    displayBasicText(data.text);
+                } else {
+                    transcriptContainer.innerHTML = '<p class="error-text">متن در دسترس نیست</p>';
+                }
+
+            } catch (error) {
+                console.error('❌ Error loading podcast:', error);
+                transcriptContainer.innerHTML = `<p class="error-text">خطا در بارگذاری پادکست: ${error.message}</p>`;
+            }
+        }
+
+        // ====================================
+        // Display basic text (without timestamps)
+        // ====================================
+        function displayBasicText(text) {
+            if (!text || text === 'undefined') {
+                transcriptContainer.innerHTML = '<p class="error-text">متن در دسترس نیست</p>';
+                return;
+            }
+            transcriptContainer.innerHTML = `<p class="basic-text">${text}</p>`;
+        }
+
+        // ====================================
+        // Sync with Whisper API
+        // ====================================
+        syncBtn.addEventListener('click', async () => {
+            syncBtn.disabled = true;
+            syncBtn.textContent = '⏳ در حال پردازش...';
+            showStatus('در حال ارسال به Whisper API...', 'info');
+
+            try {
+                // Get audio URL
+                const audioUrl = audioSource.src;
+
+                if (!audioUrl) {
+                    throw new Error('لینک صوتی در دسترس نیست');
+                }
+
+                console.log('🎙️ Sending to Whisper:', { audioUrl, podcastId });
+
+                // Send to backend for Whisper processing
+                const response = await fetch('http://localhost:3000/api/transcribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        audioUrl: audioUrl,
+                        podcastId: podcastId
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Whisper API request failed');
+                }
+
+                const result = await response.json();
+                console.log('✅ Whisper result:', result);
+                transcriptData = result;
+
+                // Display transcript with timestamps
+                displayTranscriptWithTimestamps(result);
+
+                showStatus('✅ همزمان‌سازی با موفقیت انجام شد!', 'success');
+                syncBtn.textContent = '✓ همزمان‌سازی شده';
+
+                // Enable highlighting during playback
+                setupHighlighting();
+
+            } catch (error) {
+                console.error('❌ Error syncing with Whisper:', error);
+                showStatus(`❌ خطا در همزمان‌سازی: ${error.message}`, 'error');
+                syncBtn.disabled = false;
+                syncBtn.textContent = '🎙️ تلاش مجدد';
+            }
+        });
+
+        // ====================================
+        // Display transcript with clickable segments
+        // ====================================
+        function displayTranscriptWithTimestamps(data) {
+            transcriptContainer.innerHTML = '';
+
+            if (!data.segments || data.segments.length === 0) {
+                transcriptContainer.innerHTML = '<p class="error-text">هیچ segment‌ای یافت نشد</p>';
+                return;
+            }
+
+            data.segments.forEach((segment, index) => {
+                const segmentEl = document.createElement('span');
+                segmentEl.className = 'transcript-segment';
+                segmentEl.textContent = segment.text + ' ';
+                segmentEl.dataset.index = index;
+                segmentEl.dataset.start = segment.start;
+                segmentEl.dataset.end = segment.end;
+
+                // Click to jump to timestamp
+                segmentEl.addEventListener('click', () => {
+                    audioPlayer.currentTime = segment.start;
+                    audioPlayer.play();
+                });
+
+                transcriptContainer.appendChild(segmentEl);
+            });
+        }
+
+        // ====================================
+        // Setup real-time highlighting during playback
+        // ====================================
+        function setupHighlighting() {
+            audioPlayer.addEventListener('timeupdate', () => {
+                if (!transcriptData) return;
+
+                const currentTime = audioPlayer.currentTime;
+
+                // Find current segment
+                const segmentIndex = transcriptData.segments.findIndex(
+                    segment => currentTime >= segment.start && currentTime <= segment.end
+                );
+
+                // Update highlight if segment changed
+                if (segmentIndex !== currentSegmentIndex && segmentIndex !== -1) {
+                    currentSegmentIndex = segmentIndex;
+                    highlightSegment(segmentIndex);
+                }
+            });
+        }
+
+        // ====================================
+        // Highlight current segment
+        // ====================================
+        function highlightSegment(index) {
+            // Remove previous highlights
+            document.querySelectorAll('.transcript-segment').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Add highlight to current segment
+            const currentSegment = document.querySelector(`[data-index="${index}"]`);
+            if (currentSegment) {
+                currentSegment.classList.add('active');
+                // Scroll into view smoothly
+                currentSegment.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // ====================================
+        // Show status messages
+        // ====================================
+        function showStatus(message, type) {
+            syncStatus.textContent = message;
+            syncStatus.className = `sync-status ${type}`;
+            syncStatus.classList.remove('hidden');
+
+            if (type === 'success' || type === 'error') {
+                setTimeout(() => {
+                    syncStatus.classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        // ====================================
+        // Initialize
+        // ====================================
+        window.addEventListener('DOMContentLoaded', loadPodcast);
+    </script>
+</body>
+</html>
