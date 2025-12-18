@@ -26,6 +26,43 @@
                     مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
                 </audio>
                 
+                <!-- Playback Speed Controls -->
+                <div class="speed-controls">
+                    <span class="control-label">سرعت پخش:</span>
+                    <button class="speed-btn" data-speed="0.75">0.75x</button>
+                    <button class="speed-btn active" data-speed="1">1x</button>
+                    <button class="speed-btn" data-speed="1.25">1.25x</button>
+                    <button class="speed-btn" data-speed="1.5">1.5x</button>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="nav-controls">
+                    <button id="prev-segment-btn" class="nav-btn" title="جمله قبل (←)">
+                        ⏮️ جمله قبل
+                    </button>
+                    <button id="repeat-segment-btn" class="nav-btn" title="تکرار (R)">
+                        🔁 تکرار
+                    </button>
+                    <button id="next-segment-btn" class="nav-btn" title="جمله بعد (→)">
+                        ⏭️ جمله بعد
+                    </button>
+                </div>
+
+                <!-- Keyboard Shortcuts Help -->
+                <div class="shortcuts-help">
+                    <details>
+                        <summary>⌨️ میانبرهای کیبورد</summary>
+                        <ul>
+                            <li><kbd>Space</kbd> - توقف/پخش</li>
+                            <li><kbd>←</kbd> - جمله قبل</li>
+                            <li><kbd>→</kbd> - جمله بعد</li>
+                            <li><kbd>R</kbd> - تکرار جمله</li>
+                            <li><kbd>[</kbd> - کاهش سرعت</li>
+                            <li><kbd>]</kbd> - افزایش سرعت</li>
+                        </ul>
+                    </details>
+                </div>
+                
                 <!-- Whisper Sync Button -->
                 <button id="sync-btn" class="sync-btn">
                     🎙️ همزمان‌سازی با Whisper
@@ -37,7 +74,12 @@
 
             <!-- Transcript Section -->
             <div class="transcript-section">
-                <h2>متن پادکست</h2>
+                <div class="transcript-header">
+                    <h2>متن پادکست</h2>
+                    <button id="toggle-translation-btn" class="toggle-btn hidden">
+                        🌐 نمایش ترجمه
+                    </button>
+                </div>
                 <div id="transcript-container" class="transcript-container">
                     <p class="loading-text">در حال بارگذاری متن...</p>
                 </div>
@@ -46,9 +88,53 @@
         </div>
     </main>
 
+    <!-- Dictionary Popup -->
+    <div id="dictionary-popup" class="dictionary-popup hidden">
+        <div>
+            <div class="dictionary-header">
+                <h3 id="dict-word">Word</h3>
+                <button id="dict-close" class="dict-close-btn">✕</button>
+            </div>
+            <div class="dictionary-body">
+                <div id="dict-loading" class="dict-loading">
+                    <div class="spinner-small"></div>
+                    <p>در حال جستجو...</p>
+                </div>
+                <div id="dict-content" class="dict-content hidden">
+                    <div class="dict-item">
+                        <span class="dict-label">📖 معنی</span>
+                        <span id="dict-persian" class="dict-value"></span>
+                    </div>
+                    <div class="dict-item">
+                        <span class="dict-label">🔊 تلفظ</span>
+                        <div class="pronunciation-wrapper">
+                            <span id="dict-pronunciation" class="dict-value"></span>
+                            <button id="dict-play-pronunciation" class="play-pronunciation-btn" title="گوش دادن به تلفظ">
+                                🔊
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dict-item dict-example">
+                        <span class="dict-label">💡 مثال</span>
+                        <div>
+                            <div id="dict-example" class="dict-example-text"></div>
+                            <div id="dict-example-persian" class="dict-example-persian"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="dict-error" class="dict-error hidden">
+                    ❌ خطا در جستجو
+                </div>
+            </div>
+            <div class="dictionary-footer">
+                <button id="dict-save-btn" class="dict-save-btn">⭐ ذخیره کلمه</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ====================================
-        // Player Logic
+        // Player Logic with Enhanced Features
         // ====================================
 
         const audioPlayer = document.getElementById('audio-player');
@@ -57,26 +143,165 @@
         const transcriptContainer = document.getElementById('transcript-container');
         const syncBtn = document.getElementById('sync-btn');
         const syncStatus = document.getElementById('sync-status');
+        const toggleTranslationBtn = document.getElementById('toggle-translation-btn');
 
-        let transcriptData = null; // Will store Whisper response with timestamps
+        // Navigation buttons
+        const prevSegmentBtn = document.getElementById('prev-segment-btn');
+        const nextSegmentBtn = document.getElementById('next-segment-btn');
+        const repeatSegmentBtn = document.getElementById('repeat-segment-btn');
+
+        let transcriptData = null;
         let currentSegmentIndex = -1;
+        let showTranslation = false;
+        let currentDefinition = null;
+
+        // Dictionary elements
+        const dictPopup = document.getElementById('dictionary-popup');
+        const dictWord = document.getElementById('dict-word');
+        const dictLoading = document.getElementById('dict-loading');
+        const dictContent = document.getElementById('dict-content');
+        const dictError = document.getElementById('dict-error');
+        const dictPersian = document.getElementById('dict-persian');
+        const dictPronunciation = document.getElementById('dict-pronunciation');
+        const dictExample = document.getElementById('dict-example');
+        const dictExamplePersian = document.getElementById('dict-example-persian');
+        const dictCloseBtn = document.getElementById('dict-close');
+        const dictSaveBtn = document.getElementById('dict-save-btn');
+        const dictPlayBtn = document.getElementById('dict-play-pronunciation');
 
         // Get podcast ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const podcastId = urlParams.get('id');
         const podcastTitleParam = decodeURIComponent(urlParams.get('title') || '');
 
-        console.log('🔍 URL Params:', { podcastId, podcastTitleParam }); // Debug
+        console.log('🔍 URL Params:', { podcastId, podcastTitleParam });
 
-        // Validate podcast ID
         if (!podcastId || podcastId === 'undefined' || podcastId === 'null') {
             transcriptContainer.innerHTML = '<p class="error-text">❌ خطا: شناسه پادکست معتبر نیست</p>';
             syncBtn.disabled = true;
         }
 
-        // Update title
         if (podcastTitleParam) {
             podcastTitle.textContent = podcastTitleParam;
+        }
+
+        // ====================================
+        // Playback Speed Control
+        // ====================================
+        const speedButtons = document.querySelectorAll('.speed-btn');
+        
+        speedButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const speed = parseFloat(btn.dataset.speed);
+                audioPlayer.playbackRate = speed;
+                
+                // Update active state
+                speedButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                console.log(`🎵 Speed changed to ${speed}x`);
+            });
+        });
+
+        // ====================================
+        // Segment Navigation
+        // ====================================
+        function goToPreviousSegment() {
+            if (!transcriptData || currentSegmentIndex <= 0) return;
+            
+            const prevIndex = currentSegmentIndex - 1;
+            const segment = transcriptData.segments[prevIndex];
+            audioPlayer.currentTime = segment.start;
+            audioPlayer.play();
+            console.log('⏮️ Previous segment:', prevIndex);
+        }
+
+        function goToNextSegment() {
+            if (!transcriptData || currentSegmentIndex >= transcriptData.segments.length - 1) return;
+            
+            const nextIndex = currentSegmentIndex + 1;
+            const segment = transcriptData.segments[nextIndex];
+            audioPlayer.currentTime = segment.start;
+            audioPlayer.play();
+            console.log('⏭️ Next segment:', nextIndex);
+        }
+
+        function repeatCurrentSegment() {
+            if (!transcriptData || currentSegmentIndex < 0) return;
+            
+            const segment = transcriptData.segments[currentSegmentIndex];
+            audioPlayer.currentTime = segment.start;
+            audioPlayer.play();
+            console.log('🔁 Repeat segment:', currentSegmentIndex);
+        }
+
+        prevSegmentBtn.addEventListener('click', goToPreviousSegment);
+        nextSegmentBtn.addEventListener('click', goToNextSegment);
+        repeatSegmentBtn.addEventListener('click', repeatCurrentSegment);
+
+        // ====================================
+        // Keyboard Shortcuts
+        // ====================================
+        document.addEventListener('keydown', (e) => {
+            // Ignore if typing in input field
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            
+            switch(e.key) {
+                case ' ': // Space - Play/Pause
+                    e.preventDefault();
+                    if (audioPlayer.paused) {
+                        audioPlayer.play();
+                    } else {
+                        audioPlayer.pause();
+                    }
+                    break;
+                
+                case 'ArrowLeft': // ← - Previous segment
+                    e.preventDefault();
+                    goToPreviousSegment();
+                    break;
+                
+                case 'ArrowRight': // → - Next segment
+                    e.preventDefault();
+                    goToNextSegment();
+                    break;
+                
+                case 'r':
+                case 'R': // R - Repeat segment
+                    e.preventDefault();
+                    repeatCurrentSegment();
+                    break;
+                
+                case '[': // [ - Decrease speed
+                    e.preventDefault();
+                    changeSpeed(-0.25);
+                    break;
+                
+                case ']': // ] - Increase speed
+                    e.preventDefault();
+                    changeSpeed(0.25);
+                    break;
+            }
+        });
+
+        function changeSpeed(delta) {
+            let currentSpeed = audioPlayer.playbackRate;
+            let newSpeed = Math.max(0.5, Math.min(2, currentSpeed + delta));
+            newSpeed = Math.round(newSpeed * 4) / 4; // Round to 0.25
+            
+            audioPlayer.playbackRate = newSpeed;
+            
+            // Update button states
+            speedButtons.forEach(btn => {
+                const btnSpeed = parseFloat(btn.dataset.speed);
+                if (btnSpeed === newSpeed) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            console.log(`🎵 Speed: ${newSpeed}x`);
         }
 
         // ====================================
@@ -97,9 +322,8 @@
                 }
                 
                 const data = await response.json();
-                console.log('✅ Podcast data:', data); // Debug
+                console.log('✅ Podcast data:', data);
 
-                // Set audio source
                 if (data.audioUrl) {
                     audioSource.src = data.audioUrl;
                     audioPlayer.load();
@@ -108,7 +332,6 @@
                     console.warn('⚠️ No audio URL found');
                 }
 
-                // Display basic text (before Whisper sync)
                 if (data.text) {
                     displayBasicText(data.text);
                 } else {
@@ -122,7 +345,7 @@
         }
 
         // ====================================
-        // Display basic text (without timestamps)
+        // Display basic text
         // ====================================
         function displayBasicText(text) {
             if (!text || text === 'undefined') {
@@ -141,7 +364,6 @@
             showStatus('در حال ارسال به Whisper API...', 'info');
 
             try {
-                // Get audio URL
                 const audioUrl = audioSource.src;
 
                 if (!audioUrl) {
@@ -150,7 +372,6 @@
 
                 console.log('🎙️ Sending to Whisper:', { audioUrl, podcastId });
 
-                // Send to backend for Whisper processing
                 const response = await fetch('http://localhost:3000/api/transcribe', {
                     method: 'POST',
                     headers: {
@@ -171,14 +392,18 @@
                 console.log('✅ Whisper result:', result);
                 transcriptData = result;
 
-                // Display transcript with timestamps
                 displayTranscriptWithTimestamps(result);
 
                 showStatus('✅ همزمان‌سازی با موفقیت انجام شد!', 'success');
                 syncBtn.textContent = '✓ همزمان‌سازی شده';
 
-                // Enable highlighting during playback
                 setupHighlighting();
+                
+                // Show translation button
+                toggleTranslationBtn.classList.remove('hidden');
+                
+                // Make words clickable for dictionary
+                setTimeout(() => makeWordsClickable(), 100);
 
             } catch (error) {
                 console.error('❌ Error syncing with Whisper:', error);
@@ -200,25 +425,65 @@
             }
 
             data.segments.forEach((segment, index) => {
-                const segmentEl = document.createElement('span');
-                segmentEl.className = 'transcript-segment';
-                segmentEl.textContent = segment.text + ' ';
-                segmentEl.dataset.index = index;
-                segmentEl.dataset.start = segment.start;
-                segmentEl.dataset.end = segment.end;
-
-                // Click to jump to timestamp
-                segmentEl.addEventListener('click', () => {
+                const segmentEl = document.createElement('div');
+                segmentEl.className = 'transcript-segment-wrapper';
+                
+                // Danish text
+                const danishEl = document.createElement('span');
+                danishEl.className = 'transcript-segment danish-text';
+                danishEl.textContent = segment.text;
+                danishEl.dataset.index = index;
+                danishEl.dataset.start = segment.start;
+                danishEl.dataset.end = segment.end;
+                
+                danishEl.addEventListener('click', () => {
                     audioPlayer.currentTime = segment.start;
                     audioPlayer.play();
                 });
+                
+                segmentEl.appendChild(danishEl);
+                
+                // Persian translation (if available)
+                if (segment.translation) {
+                    const persianEl = document.createElement('span');
+                    persianEl.className = 'transcript-segment persian-text hidden';
+                    persianEl.textContent = segment.translation;
+                    persianEl.dir = 'rtl';
+                    segmentEl.appendChild(persianEl);
+                }
 
                 transcriptContainer.appendChild(segmentEl);
             });
+            
+            // Show toggle button if translations exist
+            const hasTranslations = data.segments.some(s => s.translation);
+            if (hasTranslations) {
+                toggleTranslationBtn.classList.remove('hidden');
+            }
         }
+        
+        // ====================================
+        // Toggle Translation
+        // ====================================
+        toggleTranslationBtn.addEventListener('click', () => {
+            showTranslation = !showTranslation;
+            
+            const persianTexts = document.querySelectorAll('.persian-text');
+            persianTexts.forEach(el => {
+                if (showTranslation) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+            
+            toggleTranslationBtn.textContent = showTranslation 
+                ? '🇩🇰 مخفی کردن ترجمه'
+                : '🌐 نمایش ترجمه';
+        });
 
         // ====================================
-        // Setup real-time highlighting during playback
+        // Setup real-time highlighting
         // ====================================
         function setupHighlighting() {
             audioPlayer.addEventListener('timeupdate', () => {
@@ -226,12 +491,10 @@
 
                 const currentTime = audioPlayer.currentTime;
 
-                // Find current segment
                 const segmentIndex = transcriptData.segments.findIndex(
                     segment => currentTime >= segment.start && currentTime <= segment.end
                 );
 
-                // Update highlight if segment changed
                 if (segmentIndex !== currentSegmentIndex && segmentIndex !== -1) {
                     currentSegmentIndex = segmentIndex;
                     highlightSegment(segmentIndex);
@@ -243,17 +506,25 @@
         // Highlight current segment
         // ====================================
         function highlightSegment(index) {
-            // Remove previous highlights
+            document.querySelectorAll('.transcript-segment-wrapper').forEach(el => {
+                el.classList.remove('active-wrapper');
+            });
+            
             document.querySelectorAll('.transcript-segment').forEach(el => {
                 el.classList.remove('active');
             });
 
-            // Add highlight to current segment
-            const currentSegment = document.querySelector(`[data-index="${index}"]`);
-            if (currentSegment) {
-                currentSegment.classList.add('active');
-                // Scroll into view smoothly
-                currentSegment.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Find the wrapper containing the segment
+            const wrappers = document.querySelectorAll('.transcript-segment-wrapper');
+            const currentWrapper = wrappers[index];
+            
+            if (currentWrapper) {
+                currentWrapper.classList.add('active-wrapper');
+                const danishSegment = currentWrapper.querySelector('.danish-text');
+                if (danishSegment) {
+                    danishSegment.classList.add('active');
+                }
+                currentWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
@@ -276,6 +547,170 @@
         // Initialize
         // ====================================
         window.addEventListener('DOMContentLoaded', loadPodcast);
+
+        // ====================================
+        // Dictionary Functions
+        // ====================================
+        
+        // Text-to-Speech for pronunciation
+        function speakWord(word) {
+            if ('speechSynthesis' in window) {
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(word);
+                
+                // Try to use Danish voice
+                const voices = window.speechSynthesis.getVoices();
+                const danishVoice = voices.find(voice => voice.lang.startsWith('da'));
+                
+                if (danishVoice) {
+                    utterance.voice = danishVoice;
+                }
+                
+                utterance.lang = 'da-DK';
+                utterance.rate = 0.9; // Slightly slower for clarity
+                utterance.pitch = 1;
+                
+                // Visual feedback
+                dictPlayBtn.textContent = '⏸️';
+                dictPlayBtn.disabled = true;
+                
+                utterance.onend = () => {
+                    dictPlayBtn.textContent = '🔊';
+                    dictPlayBtn.disabled = false;
+                };
+                
+                utterance.onerror = () => {
+                    dictPlayBtn.textContent = '🔊';
+                    dictPlayBtn.disabled = false;
+                    alert('خطا در پخش تلفظ');
+                };
+                
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('مرورگر شما از پخش صوت پشتیبانی نمی‌کند');
+            }
+        }
+        
+        // Play pronunciation button
+        dictPlayBtn.addEventListener('click', () => {
+            if (currentDefinition && currentDefinition.word) {
+                speakWord(currentDefinition.word);
+            }
+        });
+        
+        // Close dictionary popup
+        dictCloseBtn.addEventListener('click', () => {
+            dictPopup.classList.add('hidden');
+        });
+
+        // Click outside to close
+        dictPopup.addEventListener('click', (e) => {
+            if (e.target === dictPopup) {
+                dictPopup.classList.add('hidden');
+            }
+        });
+
+        // Lookup word
+        async function lookupWord(word, context = '') {
+            dictPopup.classList.remove('hidden');
+            dictWord.textContent = word;
+            dictLoading.classList.remove('hidden');
+            dictContent.classList.add('hidden');
+            dictError.classList.add('hidden');
+
+            try {
+                const response = await fetch('http://localhost:3000/api/dictionary/lookup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ word, context })
+                });
+
+                if (!response.ok) throw new Error('Lookup failed');
+
+                const definition = await response.json();
+                currentDefinition = definition;
+
+                // Display definition
+                dictPersian.textContent = definition.persian || 'N/A';
+                dictPronunciation.textContent = definition.pronunciation || 'N/A';
+                dictExample.textContent = definition.example || '';
+                dictExamplePersian.textContent = definition.examplePersian || '';
+
+                dictLoading.classList.add('hidden');
+                dictContent.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Dictionary error:', error);
+                dictLoading.classList.add('hidden');
+                dictError.classList.remove('hidden');
+            }
+        }
+
+        // Save word
+        dictSaveBtn.addEventListener('click', async () => {
+            if (!currentDefinition) return;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/dictionary/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        word: currentDefinition.word,
+                        definition: currentDefinition
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.saved) {
+                    dictSaveBtn.textContent = '✅ ذخیره شد';
+                    dictSaveBtn.disabled = true;
+                    setTimeout(() => {
+                        dictSaveBtn.textContent = '⭐ ذخیره';
+                        dictSaveBtn.disabled = false;
+                    }, 2000);
+                } else {
+                    alert('این کلمه قبلاً ذخیره شده است');
+                }
+
+            } catch (error) {
+                console.error('Save error:', error);
+                alert('خطا در ذخیره کلمه');
+            }
+        });
+
+        // Make words clickable in transcript
+        function makeWordsClickable() {
+            const segments = document.querySelectorAll('.danish-text');
+            
+            segments.forEach(segment => {
+                const text = segment.textContent;
+                const words = text.split(/\s+/);
+                
+                segment.innerHTML = '';
+                
+                words.forEach((word, index) => {
+                    const wordSpan = document.createElement('span');
+                    wordSpan.className = 'clickable-word';
+                    wordSpan.textContent = word;
+                    
+                    wordSpan.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const cleanWord = word.replace(/[.,!?;:]/g, '');
+                        const context = text;
+                        lookupWord(cleanWord, context);
+                    });
+                    
+                    segment.appendChild(wordSpan);
+                    
+                    if (index < words.length - 1) {
+                        segment.appendChild(document.createTextNode(' '));
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html>
