@@ -1,0 +1,162 @@
+{
+  "velkommen": {
+    "word": "velkommen",
+    "persian": "خوش آمدید",
+    "pronunciation": "/ˈvɛl.kʌ.mən/",
+    "example": "Hej og velkommen til Dansk i ørerne.",
+    "examplePersian": "سلام و خوش آمدید به دانمارکی در گوش‌ها.",
+    "cachedAt": "2025-12-11T08:24:17.971Z"
+  },
+  "ørerne": {
+    "word": "ørerne",
+    "persian": "گوش‌ها",
+    "pronunciation": "/ˈøːʁɶnə/",
+    "example": "Jeg har dansk i ørerne.",
+    "examplePersian": "من دانمارکی در گوش‌هایم دارم.",
+    "cachedAt": "2025-12-11T08:29:58.818Z"
+  },
+  "kalenderlys": {
+    "word": "kalenderlys",
+    "persian": "شمع تقویمی",
+    "pronunciation": "/kɑˈlɛndɐˌlyːs/",
+    "example": "Vi tænder kalenderlys i december.",
+    "examplePersian": "ما در دسامبر شمع تقویمی روشن می‌کنیم.",
+    "cachedAt": "2025-12-11T08:37:07.000Z"
+  },
+  "gemmer": {
+    "word": "gemmer",
+    "persian": "نگه می‌دارم",
+    "pronunciation": "/ˈɡɛmɐʁ/",
+    "example": "Selve juleaften gemmer jeg til en senere episode.",
+    "examplePersian": "شب کریسمس را برای یک قسمت بعدی نگه می‌دارم.",
+    "cachedAt": "2025-12-11T08:37:55.796Z"
+  },
+  "december": {
+    "word": "december",
+    "persian": "دی‌ماه",
+    "pronunciation": "/deˈsɛmbɐʁ/",
+    "example": "Nu er det blevet december, og jeg vil fortælle lidt om de danske juletraditioner.",
+    "examplePersian": "اکنون دی‌ماه شده است و می‌خواهم کمی درباره سنت‌های کریسمس دانمارکی بگویم.",
+    "cachedAt": "2025-12-11T13:57:39.111Z"
+  },
+  "teksten": {
+    "word": "teksten",
+    "persian": "متن",
+    "pronunciation": "/ˈtɛk.stən/",
+    "example": "Du kan finde teksten til episoden på podcastens hjemmeside.",
+    "examplePersian": "شما می‌توانید متن قسمت را در وب‌سایت پادکست پیدا کنید.",
+    "cachedAt": "2025-12-11T13:57:52.908Z"
+  },
+  "flettede": {
+    "word": "flettede",
+    "persian": "بافته شده",
+    "pronunciation": "/ˈfletəðə/",
+    "example": "Julepynt er ofte nisser, flettede julestjerner og julehjerter.",
+    "examplePersian": "تزئینات کریسمس اغلب شامل جن‌ها، ستاره‌های کریسمس بافته شده و قلب‌های کریسمس است.",
+    "cachedAt": "2025-12-11T14:07:53.150Z"
+  },
+  "beholder": {
+    "word": "beholder",
+    "persian": "نگهدارنده",
+    "pronunciation": "neɡæhdɒːrændɛ",
+    "example": "Nogle beholder lyskæden i deres have, det meste af vinteren.",
+    "examplePersian": "برخی لامپ زنجیری را در باغ خود، بیشتر زمستان نگه می‌دارند.",
+    "cachedAt": "2025-12-11T14:08:27.556Z"
+  },
+  "hyggeligt": {
+    "word": "hyggeligt",
+    "persian": "دلپذیر",
+    "pronunciation": "/ˈhyg.ə.lɪt/",
+    "example": "Det er hyggeligt at være sammen med venner.",
+    "examplePersian": "دلپذیر است که با دوستان باشیم.",
+    "cachedAt": "2025-12-11T14:08:56.825Z"
+  },
+  "fortælle": {
+    "word": "fortælle",
+    "persian": "تعریف کردن",
+    "pronunciation": "/fɔˈtɛl.lə/",
+    "example": "Jeg vil fortælle lidt om de danske juletraditioner.",
+    "examplePersian": "من می‌خواهم کمی درباره سنت‌های کریسمس دانمارکی تعریف کنم.",
+    "cachedAt": "2025-12-12T22:37:56.606Z"
+  },
+  "det": {
+    "word": "det",
+    "persian": "این",
+    "pronunciation": "iːn",
+    "example": "Nu er det blevet december.",
+    "examplePersian": "اکنون این دسامبر شده است.",
+    "cachedAt": "2025-12-12T22:39:33.799Z"
+  },
+  "podcastens": {
+    "word": "podcastens",
+    "persian": "پادکست",
+    "pronunciation": "pɒdˈkæst",
+    "example": "Du kan finde teksten til episoden på podcastens hjemmeside.",
+    "examplePersian": "شما می‌توانید متن قسمت را در وب‌سایت پادکست پیدا کنید.",
+    "cachedAt": "2025-12-12T22:40:29.408Z"
+  },
+  "danskere": {
+    "word": "danskere",
+    "persian": "دانمارکی‌ها",
+    "pronunciation": "/ˈdænskəʁə/",
+    "example": "De fleste danskere er glade for julen.",
+    "examplePersian": "بیشتر دانمارکی‌ها از کریسمس خوشحال هستند.",
+    "cachedAt": "2025-12-12T22:44:56.083Z"
+  },
+  "forskellige": {
+    "word": "forskellige",
+    "persian": "مختلف",
+    "pronunciation": "/fɔʁˈskɛliə/",
+    "example": "Der er mange forskellige traditioner i december måned.",
+    "examplePersian": "در ماه دسامبر سنت‌های مختلفی وجود دارد.",
+    "cachedAt": "2025-12-12T22:45:46.774Z"
+  },
+  "koordinere": {
+    "word": "koordinere",
+    "persian": "هماهنگ کردن",
+    "pronunciation": "/koːʁdɪˈneːʁə/",
+    "example": "Danskerne har travlt med at koordinere deres julefrokoster.",
+    "examplePersian": "دانمارکی‌ها مشغول هماهنگ کردن جشن‌های کریسمس خود هستند.",
+    "cachedAt": "2025-12-18T08:44:43.370Z"
+  },
+  "helgedage": {
+    "word": "helgedage",
+    "persian": "روزهای مقدس",
+    "pronunciation": "/ˈhɛlɡəˌdæːɡə/",
+    "example": "Hvilke påskedage er helgedage i Danmark?",
+    "examplePersian": "کدام روزهای عید پاک روزهای مقدس در دانمارک هستند؟",
+    "cachedAt": "2025-12-18T09:15:18.719Z"
+  },
+  "dog": {
+    "word": "dog",
+    "persian": "اما",
+    "pronunciation": "/ˈdɔː/ (for the context meaning 'however')",
+    "example": "Påskedag ligger dog altid mellem den 22. marts og den 25. april.",
+    "examplePersian": "روز عید پاک همیشه بین ۲۲ مارس و ۲۵ آوریل قرار دارد.",
+    "cachedAt": "2025-12-18T09:16:05.221Z"
+  },
+  "særlig": {
+    "word": "særlig",
+    "persian": "خاص",
+    "pronunciation": "/ˈsæːʁli/",
+    "example": "En særlig dansk påsketradition er gækkebrevet.",
+    "examplePersian": "یک سنت خاص دانمارکی در عید پاک، نامه گک است.",
+    "cachedAt": "2025-12-18T09:24:23.099Z"
+  },
+  "udgangspunkt": {
+    "word": "udgangspunkt",
+    "persian": "مبنا",
+    "pronunciation": "/ˈuðˌɡɑŋsˌpuŋt/",
+    "example": "Som udgangspunkt har man fri fra arbejde i påskehelgedagene.",
+    "examplePersian": "به عنوان مبنا، در روزهای تعطیلات عید پاک از کار آزاد هستید.",
+    "cachedAt": "2025-12-18T09:48:29.626Z"
+  },
+  "juledekorationer": {
+    "word": "juledekorationer",
+    "persian": "تزئینات کریسمس",
+    "pronunciation": "/juːləˌdɛkoʁaˈʁoːnɐ/",
+    "example": "Vi pynter vores hjem med juledekorationer.",
+    "examplePersian": "ما خانه‌مان را با تزئینات کریسمس تزئین می‌کنیم.",
+    "cachedAt": "2025-12-18T22:18:16.861Z"
+  }
+}
