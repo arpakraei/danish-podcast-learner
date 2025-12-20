@@ -60,6 +60,11 @@ app.get('/player', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'player.html'));
 });
 
+// 7️⃣.1️⃣ Vocabulary page route
+app.get('/vocabulary', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'vocabulary.html'));
+});
+
 // 8️⃣ API endpoint - Get podcast list
 app.get('/api/podcasts', (req, res) => {
   try {
@@ -176,6 +181,7 @@ app.post('/api/transcribe', async (req, res) => {
 
 // 1️⃣1️⃣ Dictionary API endpoints
 const { lookupWord, loadSavedWords, saveWord, unsaveWord } = require('./src/dictionaryService');
+const { getSpeech } = require('./src/ttsService');
 
 // Lookup word
 app.post('/api/dictionary/lookup', async (req, res) => {
@@ -195,6 +201,36 @@ app.post('/api/dictionary/lookup', async (req, res) => {
     console.error('❌ Dictionary lookup error:', error);
     res.status(500).json({ 
       error: 'Lookup failed',
+      message: error.message 
+    });
+  }
+});
+
+// Get pronunciation audio
+app.post('/api/dictionary/pronounce', async (req, res) => {
+  try {
+    const { word } = req.body;
+    
+    if (!word) {
+      return res.status(400).json({ error: 'Word is required' });
+    }
+    
+    console.log(`🔊 TTS request: "${word}"`);
+    
+    const audioBuffer = await getSpeech(word, 'da-DK');
+    
+    res.set({
+      'Content-Type': 'audio/mpeg',
+      'Content-Length': audioBuffer.length,
+      'Cache-Control': 'public, max-age=31536000' // Cache for 1 year
+    });
+    
+    res.send(audioBuffer);
+    
+  } catch (error) {
+    console.error('❌ TTS error:', error);
+    res.status(500).json({ 
+      error: 'Pronunciation failed',
       message: error.message 
     });
   }
