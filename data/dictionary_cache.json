@@ -158,5 +158,309 @@
     "example": "Vi pynter vores hjem med juledekorationer.",
     "examplePersian": "ما خانه‌مان را با تزئینات کریسمس تزئین می‌کنیم.",
     "cachedAt": "2025-12-18T22:18:16.861Z"
+  },
+  "julepynt": {
+    "word": "Julepynt",
+    "persian": "تزئینات کریسمس",
+    "pronunciation": "/juːləˌpʏnt/",
+    "example": "Julepynt er ofte nisser, flettede julestjerner og julehjerter.",
+    "examplePersian": "تزئینات کریسمس معمولاً شامل نُسُرها، ستاره‌های بافته شده و قلب‌های کریسمس است.",
+    "cachedAt": "2025-12-20T12:41:03.593Z"
+  },
+  "foreningsliv": {
+    "word": "foreningsliv",
+    "persian": "زندگی انجمنی",
+    "pronunciation": "/foˈʁeːnɪŋsliːv/",
+    "example": "Foreningslivet i Danmark er meget aktivt.",
+    "examplePersian": "زندگی انجمنی در دانمارک بسیار فعال است.",
+    "cachedAt": "2025-12-20T14:51:24.403Z"
+  },
+  "grundstenene": {
+    "word": "grundstenene",
+    "persian": "سنگ بنای",
+    "pronunciation": "/ɡʁunˈsteːnə/",
+    "example": "Uddannelse er en af grundstenene i vores samfund og kultur.",
+    "examplePersian": "آموزش یکی از سنگ بنای جامعه و فرهنگ ماست.",
+    "cachedAt": "2025-12-20T14:51:56.533Z"
+  },
+  "podcasten": {
+    "word": "podcasten",
+    "persian": "پادکست",
+    "pronunciation": "/ˈpʰɔdˌkæst/",
+    "example": "Jeg elsker at lytte til podcasten.",
+    "examplePersian": "من عاشق گوش دادن به پادکست هستم.",
+    "cachedAt": "2025-12-20T15:24:14.520Z"
+  },
+  "modersmål": {
+    "word": "modersmål",
+    "persian": "زبان مادری",
+    "pronunciation": "/ˈmɔːdɐsˌmɔːl/",
+    "example": "Selvom man ikke har dansk som sit modersmål.",
+    "examplePersian": "هرچند که فرد زبان دانمارکی را به عنوان زبان مادری ندارد.",
+    "cachedAt": "2025-12-20T15:25:08.101Z"
+  },
+  "hovedstad": {
+    "word": "hovedstad",
+    "persian": "پایتخت",
+    "pronunciation": "/ˈhoʊ̯ðˌstæːð/",
+    "example": "København er Danmarks hovedstad.",
+    "examplePersian": "کپنهاگ پایتخت دانمارک است.",
+    "cachedAt": "2025-12-21T10:47:24.055Z"
+  },
+  "fløjen": {
+    "word": "fløjen",
+    "persian": "چپ",
+    "pronunciation": "/flø.jən/",
+    "example": "Partierne på venstre fløjen arbejder for social retfærdighed.",
+    "examplePersian": "حزب‌های چپ برای عدالت اجتماعی کار می‌کنند.",
+    "cachedAt": "2025-12-21T11:01:13.803Z"
+  },
+  "venstre": {
+    "word": "venstre",
+    "persian": "چپ",
+    "pronunciation": "/ˈvɛn.stʁə/",
+    "example": "Partierne på venstre fløjen arbejder for social retfærdighed.",
+    "examplePersian": "احزاب در جناح چپ برای عدالت اجتماعی کار می‌کنند.",
+    "cachedAt": "2025-12-21T11:01:38.644Z"
+  },
+  "folketinget": {
+    "word": "Folketinget",
+    "persian": "پارلمان دانمارک",
+    "pronunciation": "/ˈfɔlˌkeːtɪŋ/",
+    "example": "Den lovgivende magt er placeret i det danske parlament, i Folketinget.",
+    "examplePersian": "قدرت قانون‌گذاری در پارلمان دانمارک، در Folketinget قرار دارد.",
+    "cachedAt": "2025-12-21T11:02:44.819Z"
+  },
+  "besluttet": {
+    "word": "besluttet",
+    "persian": "تصمیم‌گیری شده",
+    "pronunciation": "/bɛsˈlʊtəd/",
+    "example": "Nogle ting bliver dog besluttet i Danmarks regioner og kommuner.",
+    "examplePersian": "برخی امور در مناطق و شهرداری‌های دانمارک تصمیم‌گیری می‌شوند.",
+    "cachedAt": "2025-12-21T11:04:19.185Z"
+  },
+  "folkevalgte": {
+    "word": "folkevalgte",
+    "persian": "منتخبین مردم",
+    "pronunciation": "mʊntɛxɛbiːn mɑrdɔm",
+    "example": "I Folketinget sidder 179 folkevalgte politikere.",
+    "examplePersian": "در مجلس ملی ۱۷۹ منتخبین مردم نشسته‌اند.",
+    "cachedAt": "2025-12-21T11:05:16.161Z"
+  },
+  "højreorienterede": {
+    "word": "højreorienterede",
+    "persian": "راست‌گرا",
+    "pronunciation": "/ˈhœjʁeˌʊʁiːɛnˈtʁeːðə/",
+    "example": "De blå partier er de højreorienterede og mere liberale partier.",
+    "examplePersian": "احزاب آبی، احزاب راست‌گرا و لیبرال‌تری هستند.",
+    "cachedAt": "2025-12-21T11:07:38.871Z"
+  },
+  "regeringen": {
+    "word": "Regeringen",
+    "persian": "دولت",
+    "pronunciation": "/ʁeˈɡeːʁiŋən/",
+    "example": "Regeringen består af Socialdemokratiet.",
+    "examplePersian": "دولت از حزب سوسیال دموکرات تشکیل شده است.",
+    "cachedAt": "2025-12-21T11:21:56.476Z"
+  },
+  "venstreorienterede": {
+    "word": "venstreorienterede",
+    "persian": "چپ‌گرا",
+    "pronunciation": "/ˈvɛnˌsʁ̥øːʁiˌɛntʁ̥əðə/",
+    "example": "De røde partier er de venstreorienterede og mere socialistiske partier.",
+    "examplePersian": "احزاب سرخ، احزاب چپ‌گرا و سوسیالیستی هستند.",
+    "cachedAt": "2025-12-21T14:33:11.510Z"
+  },
+  "kristendemokraterne": {
+    "word": "Kristendemokraterne",
+    "persian": "مسیحی دموکرات‌ها",
+    "pronunciation": "/kʁisˈteːnəˌmɔkʁaˌtɒːnə/",
+    "example": "Kristendemokraterne har en vigtig rolle i dansk politik.",
+    "examplePersian": "مسیحی دموکرات‌ها نقش مهمی در سیاست دانمارک دارند.",
+    "cachedAt": "2025-12-21T14:37:22.221Z"
+  },
+  "partierne": {
+    "word": "partierne",
+    "persian": "احزاب",
+    "pronunciation": "/ˈpɑːʁtiːɐ̯nə/",
+    "example": "De forskellige partierne har forskellige meninger.",
+    "examplePersian": "احزاب مختلف نظرات متفاوتی دارند.",
+    "cachedAt": "2025-12-21T14:57:51.975Z"
+  },
+  "parlamentarisk": {
+    "word": "parlamentarisk",
+    "persian": "پارلمانی",
+    "pronunciation": "/pɑːləmɛnˈtɑːʁisk/",
+    "example": "Danmark er et parlamentarisk demokrati.",
+    "examplePersian": "دانمارک یک دموکراسی پارلمانی است.",
+    "cachedAt": "2025-12-21T14:58:50.216Z"
+  },
+  "lovgivende": {
+    "word": "lovgivende",
+    "persian": "قانون‌گذاری",
+    "pronunciation": "/lɔːˈɡiːvənə/",
+    "example": "Den lovgivende magt er placeret i det danske parlament, i Folketinget.",
+    "examplePersian": "قدرت قانون‌گذاری در پارلمان دانمارک، در فُولکِتینگه قرار دارد.",
+    "cachedAt": "2025-12-21T14:59:26.532Z"
+  },
+  "magt": {
+    "word": "magt",
+    "persian": "قدرت",
+    "pronunciation": "/mɑɡt/",
+    "example": "Den lovgivende magt er placeret i det danske parlament, i Folketinget.",
+    "examplePersian": "قدرت قانون‌گذاری در پارلمان دانمارک، در فُولکِتینگ قرار دارد.",
+    "cachedAt": "2025-12-21T14:59:40.613Z"
+  },
+  "også": {
+    "word": "også",
+    "persian": "همچنین",
+    "pronunciation": "/ˈɔsə/",
+    "example": "Jeg kan også lide æbler.",
+    "examplePersian": "من همچنین سیب‌ها را دوست دارم.",
+    "cachedAt": "2025-12-22T08:11:00.590Z"
+  },
+  "fleste": {
+    "word": "fleste",
+    "persian": "بیشتر",
+    "pronunciation": "/ˈfleːstə/",
+    "example": "De fleste mennesker elsker musik.",
+    "examplePersian": "بیشتر مردم موسیقی را دوست دارند.",
+    "cachedAt": "2025-12-22T08:28:46.563Z"
+  },
+  "kan": {
+    "word": "kan",
+    "persian": "می‌تواند",
+    "pronunciation": "/kæn/",
+    "example": "Jeg kan lide æbler.",
+    "examplePersian": "من سیب‌ها را دوست دارم.",
+    "cachedAt": "2025-12-22T09:21:55.280Z"
+  },
+  "julefrokoster": {
+    "word": "julefrokoster",
+    "persian": "ناهارهای کریسمس",
+    "pronunciation": "/ˈjuːləˌfʁɔkʌsˌd̥ɐ/",
+    "example": "Vi skal til julefrokoster i år.",
+    "examplePersian": "ما امسال به ناهارهای کریسمس خواهیم رفت.",
+    "cachedAt": "2025-12-22T10:08:08.483Z"
+  },
+  "næststørste": {
+    "word": "næststørste",
+    "persian": "دومین بزرگترین",
+    "pronunciation": "/ˈnɛsˌsd̥øːʁstə/",
+    "example": "Aarhus er Danmarks næststørste by.",
+    "examplePersian": "آرهوس دومین بزرگترین شهر دانمارک است.",
+    "cachedAt": "2025-12-22T14:51:34.692Z"
+  },
+  "disclaimer": {
+    "word": "disclaimer",
+    "persian": "سلب مسئولیت",
+    "pronunciation": "/sælb mæ'sulijat/",
+    "example": "En lille disclaimer er, at jeg selv bor i Aarhus.",
+    "examplePersian": "یک سلب مسئولیت کوچک این است که من خودم در آرهوس زندگی می‌کنم.",
+    "cachedAt": "2025-12-22T15:37:47.369Z"
+  },
+  "indbyggere": {
+    "word": "indbyggere",
+    "persian": "ساکنان",
+    "pronunciation": "/ˈɛnˌbyɡʌʁʌ/",
+    "example": "Der bor omkring 350.000 indbyggere i Aarhus Kommune.",
+    "examplePersian": "حدود ۳۵۰٫۰۰۰ ساکن در شهرداری آرهوس زندگی می‌کنند.",
+    "cachedAt": "2025-12-22T15:39:08.706Z"
+  },
+  "valgfrit": {
+    "word": "valgfrit",
+    "persian": "اختیاری",
+    "pronunciation": "/ˈvælɡfʁit/",
+    "example": "Det er valgfrit, om man staver Aarhus med å eller dobbelt a.",
+    "examplePersian": "این اختیاری است که آیا آرهوس را با او یا دو برابر آ می‌نویسید.",
+    "cachedAt": "2025-12-22T15:39:37.037Z"
+  },
+  "havneområde": {
+    "word": "havneområde",
+    "persian": "منطقه بندری",
+    "pronunciation": "/ˈhɑːv.nəˌʌm.ʁɑːðə/",
+    "example": "Aarhus har et stort havneområde.",
+    "examplePersian": "آرهوس یک منطقه بندری بزرگ دارد.",
+    "cachedAt": "2025-12-22T15:40:39.883Z"
+  },
+  "sjælland": {
+    "word": "Sjælland",
+    "persian": "زیلند",
+    "pronunciation": "/ˈsjeːlan/",
+    "example": "Man kan sejle med færge fra Aarhus til både Sjælland og Samsø.",
+    "examplePersian": "شما می‌توانید با کشتی از آرهوس به هر دو زیلند و سامسو بروید.",
+    "cachedAt": "2025-12-22T15:41:24.323Z"
+  },
+  "samsø": {
+    "word": "Samsø",
+    "persian": "سامسø",
+    "pronunciation": "/ˈsamsøː/",
+    "example": "Man kan sejle med færge fra Aarhus til både Sjælland og Samsø.",
+    "examplePersian": "می‌توان با قایق از آرهوس به جزیره سامسø و همچنین زلاند رفت.",
+    "cachedAt": "2025-12-22T15:41:34.189Z"
+  },
+  "omgivelser": {
+    "word": "omgivelser",
+    "persian": "محیط",
+    "pronunciation": "/omˈɡiːvəlˌsɐʁ/",
+    "example": "Aarhus er bl.a. populær, fordi den ligger i meget naturrige omgivelser.",
+    "examplePersian": "آرهوس به عنوان مثال محبوب است، زیرا در محیطی بسیار طبیعی قرار دارد.",
+    "cachedAt": "2025-12-22T15:41:56.918Z"
+  },
+  "uddannelsesmuligheder": {
+    "word": "uddannelsesmuligheder",
+    "persian": "امکانات آموزشی",
+    "pronunciation": "/uðˈnɛlsəsˌmuːliˌɡ̊eðɐʁ/",
+    "example": "Der er mange forskellige uddannelsesmuligheder i Aarhus.",
+    "examplePersian": "در آرهوس گزینه‌های آموزشی متنوعی وجود دارد.",
+    "cachedAt": "2025-12-22T15:43:59.021Z"
+  },
+  "uddannelsesinstitution": {
+    "word": "uddannelsesinstitution",
+    "persian": "مؤسسه آموزشی",
+    "pronunciation": "/uˈdænˀelsəsɪnstiˈtʊːɕn/",
+    "example": "Den største uddannelsesinstitution er Aarhus Universitet.",
+    "examplePersian": "بزرگترین مؤسسه آموزشی دانشگاه آرهوس است.",
+    "cachedAt": "2025-12-22T15:44:32.580Z"
+  },
+  "professionsbacheloruddannelser": {
+    "word": "professionsbacheloruddannelser",
+    "persian": "مدرک کارشناسی حرفه‌ای",
+    "pronunciation": "/pʁoˈfɛʃn̩sˌbɛt͡ʃlɒːʁuˈdænːelsɐ/",
+    "example": "Jeg overvejer at tage en professionsbacheloruddannelse.",
+    "examplePersian": "من در نظر دارم که مدرک کارشناسی حرفه‌ای بگیرم.",
+    "cachedAt": "2025-12-22T15:48:06.310Z"
+  },
+  "advend": {
+    "word": "advend",
+    "persian": "آدونت",
+    "pronunciation": "/ˈæd.vɛnd/",
+    "example": "Mange danskere begynder at pynte op til jul omkring første søndag i advend.",
+    "examplePersian": "بسیاری از دانمارکی‌ها از روز یکشنبه اول آدونت برای تزئین کریسمس شروع می‌کنند.",
+    "cachedAt": "2025-12-23T08:57:59.162Z"
+  },
+  "blandt": {
+    "word": "blandt",
+    "persian": "بین",
+    "pronunciation": "/blant/",
+    "example": "Han er blandt de bedste.",
+    "examplePersian": "او بین بهترین‌ها است.",
+    "cachedAt": "2025-12-23T09:12:35.742Z"
+  },
+  "lufthavn": {
+    "word": "lufthavn",
+    "persian": "فرودگاه",
+    "pronunciation": "/ˈlʊfˌhɑʊ̯n/",
+    "example": "Jeg skal tage til lufthavnen i morgen.",
+    "examplePersian": "من فردا به فرودگاه می‌روم.",
+    "cachedAt": "2025-12-23T09:12:52.798Z"
+  },
+  "etableret": {
+    "word": "etableret",
+    "persian": "تأسیس شده",
+    "pronunciation": "etabˈleːʁet",
+    "example": "Virksomheden er etableret i 2010.",
+    "examplePersian": "شرکت در سال ۲۰۱۰ تأسیس شده است.",
+    "cachedAt": "2025-12-23T09:13:05.917Z"
   }
 }

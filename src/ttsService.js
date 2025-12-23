@@ -1,95 +1,65 @@
 // ====================================
-// ttsService.js - Text-to-Speech Service (Microsoft Edge)
+// ttsService.js - ElevenLabs TTS
 // ====================================
 
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
+require("dotenv").config();
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
 
-/**
- * Generate speech using Microsoft Edge TTS (Free!)
- * @param {string} text - Text to speak
- * @param {string} voice - Voice name
- * @returns {Promise<Buffer>} - Audio data
- */
-async function generateSpeechEdge(text, voice = 'da-DK-ChristelNeural') {
+const ELEVEN_API_KEY = process.env.ELEVENLABS_API_KEY;
+
+// 🇩🇰 best danish voice
+const DANISH_VOICE_ID = "ADRrvIX3j1uTFlD5q6DE";  // Casper Dansk
+
+async function generateSpeech(text) {
   try {
-    console.log(`🔊 Generating speech with Edge TTS: "${text}"`);
-    
-    // Edge TTS uses a simple REST API
+    console.log(`🧠 ElevenLabs request: "${text}" voice:${DANISH_VOICE_ID}`);
+
     const response = await axios({
-      method: 'GET',
-      url: 'https://api.streamelements.com/kappa/v2/speech',
-      params: {
-        voice: voice,
-        text: text
+      method: "POST",
+      url: `https://api.elevenlabs.io/v1/text-to-speech/${DANISH_VOICE_ID}`,
+      headers: {
+        "xi-api-key": ELEVEN_API_KEY,
+        "Content-Type": "application/json",
       },
-      responseType: 'arraybuffer',
-      timeout: 30000
+      responseType: "arraybuffer",
+      data: {
+        text,
+        voice_settings: {
+          stability: 0.5,
+          similarity_boost: 0.8,
+        },
+      },
+      timeout: 30000,
     });
-    
-    const audioBuffer = Buffer.from(response.data);
-    console.log(`✅ Speech generated successfully (${audioBuffer.length} bytes)`);
-    
-    return audioBuffer;
-    
+
+    return Buffer.from(response.data);
+
   } catch (error) {
-    console.error('❌ Edge TTS Error:', error.message);
-    throw new Error(`TTS generation failed: ${error.message}`);
+    console.error("❌ ElevenLabs failed:", error.response?.status, error.response?.data);
+    throw new Error("TTS failed: " + error.message);
   }
 }
 
-/**
- * Get cached audio or generate new
- * @param {string} text - Text to speak
- * @returns {Promise<Buffer>} - Audio data
- */
 async function getSpeech(text) {
-  // Create cache directory
-  const cacheDir = path.join(__dirname, '..', 'data', 'tts_cache');
-  if (!fs.existsSync(cacheDir)) {
-    fs.mkdirSync(cacheDir, { recursive: true });
+
+  const cacheDir = path.join(__dirname, "..", "data", "tts_cache");
+  if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+
+  const filename = text.toLowerCase().replace(/[^a-z0-9]/gi, "_") + ".mp3";
+  const filePath = path.join(cacheDir, filename);
+
+  if (fs.existsSync(filePath)) {
+    console.log(`📦 cache hit → ${text}`);
+    return fs.readFileSync(filePath);
   }
-  
-  // Generate cache filename
-  const sanitizedText = text.toLowerCase().replace(/[^a-z0-9]/g, '_').substring(0, 50);
-  const cacheFile = path.join(cacheDir, `${sanitizedText}.mp3`);
-  
-  // Check cache
-  if (fs.existsSync(cacheFile)) {
-    console.log(`📦 Cache hit for: "${text}"`);
-    return fs.readFileSync(cacheFile);
-  }
-  
-  // Generate new audio
-  const audioBuffer = await generateSpeechEdge(text);
-  
-  // Save to cache
-  fs.writeFileSync(cacheFile, audioBuffer);
-  console.log(`💾 Cached audio for: "${text}"`);
-  
-  return audioBuffer;
+
+  const audio = await generateSpeech(text);
+  fs.writeFileSync(filePath, audio);
+
+  console.log(`💾 cached → ${text}`);
+  return audio;
 }
 
-/**
- * Available Danish voices (Microsoft Edge TTS)
- * All are free and unlimited!
- */
-const EDGE_DANISH_VOICES = {
-  'christel': {
-    name: 'da-DK-ChristelNeural',
-    gender: 'Female',
-    description: 'Danish female voice - natural and clear'
-  },
-  'jeppe': {
-    name: 'da-DK-JeppeNeural',
-    gender: 'Male',
-    description: 'Danish male voice - warm and friendly'
-  }
-};
-
-module.exports = {
-  generateSpeechEdge,
-  getSpeech,
-  EDGE_DANISH_VOICES
-};
+module.exports = { getSpeech };
