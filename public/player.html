@@ -655,6 +655,23 @@ async function playWord(word) {
         // Lookup word
         async function lookupWord(word, context = '') {
 
+                // ================================
+        // 🔄 Reset Save button state
+        // ================================
+        dictSaveBtn.disabled = false;          // فعال شود
+        dictSaveBtn.textContent = '⭐ ذخیره';   // متن پیش‌فرض
+        // ================================
+
+        // اگر پادکست پلی بود pause می‌کنیم
+        if (!audioPlayer.paused) {
+            wasPlayingBeforePopup = true;
+            audioPlayer.pause();
+        } else {
+            wasPlayingBeforePopup = false;
+        }
+
+       // disableScroll();
+
         dictPopup.classList.remove('hidden');
         dictWord.textContent = word;
         dictLoading.classList.remove('hidden');
