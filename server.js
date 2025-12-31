@@ -367,6 +367,137 @@ app.get('/api/podcast/:id/keywords', async (req, res) => {
     });
   }
 });
+// ============================================
+// API: Get podcast progress UI state
+// GET /api/podcast/:id/progress
+// ============================================
+
+const { progressController } = require('./src/progressController');
+
+app.get('/api/podcast/:id/progress', (req, res) => {
+  try {
+    const podcastId = req.params.id;
+
+    // ⚠️ فعلاً mock progress (بعداً از JSON یا DB می‌آید)
+    const userProgress = {
+      podcastId,
+      firstListenCompleted: false,
+      secondListenCompleted: false,
+      quizA: { completed: false },
+      quizB: { completed: false }
+    };
+
+    const uiState = progressController(userProgress);
+
+    res.json(uiState);
+
+  } catch (err) {
+    res.status(500).json({
+      error: 'Progress evaluation failed',
+      message: err.message
+    });
+  }
+});
+
+// ====================================
+// 📌 Update podcast learning state
+// ====================================
+app.post('/api/podcast/:id/state', (req, res) => {
+  const podcastId = req.params.id;
+  const { state } = req.body;
+
+  console.log(`📥 State update for podcast ${podcastId}:`, state);
+
+  const progressPath = path.join(
+    __dirname,
+    'data',
+    'learning_progress.json'
+  );
+
+  let progressData = {};
+
+  // 🛡️ Safe read
+  if (fs.existsSync(progressPath)) {
+    const raw = fs.readFileSync(progressPath, 'utf-8').trim();
+    if (raw) {
+      try {
+        progressData = JSON.parse(raw);
+      } catch (err) {
+        console.error('❌ Corrupted progress file, resetting');
+        progressData = {};
+      }
+    }
+  }
+
+  // 🧠 Update state
+  progressData[podcastId] = {
+    ...(progressData[podcastId] || {}),
+    state
+  };
+
+  // 💾 Safe write
+  fs.writeFileSync(
+    progressPath,
+    JSON.stringify(progressData, null, 2),
+    'utf-8'
+  );
+
+  res.json({ success: true, state });
+});
+
+
+  // ===========================================
+// 📥 API: get podcast learning state
+// GET /api/podcast/:id/state
+// ===========================================
+app.get('/api/podcast/:id/state', (req, res) => {
+  try {
+    const podcastId = req.params.id;
+
+    console.log(`📥 Fetch state for podcast ${podcastId}`);
+
+    const progressPath = path.join(
+      __dirname,
+      'data',
+      'learning_progress.json'
+    );
+
+    if (!fs.existsSync(progressPath)) {
+      return res.json({
+        podcastId,
+        state: 'LISTENING_FIRST'
+      });
+    }
+
+    let progressData = {};
+
+    if (fs.existsSync(progressPath)) {
+      const raw = fs.readFileSync(progressPath, 'utf-8').trim();
+
+      if (raw) {
+        try {
+          progressData = JSON.parse(raw);
+        } catch (err) {
+          console.error('❌ Corrupted learning_progress.json, resetting...');
+          progressData = {};
+        }
+      }
+    }
+
+
+    const state =
+      progressData[podcastId]?.state || 'LISTENING_FIRST';
+
+    res.json({
+      podcastId,
+      state
+    });
+
+  } catch (err) {
+    console.error('❌ Get state error:', err);
+    res.status(500).json({ error: 'Failed to get state' });
+  }
+});
 
 
 // 1️⃣2️⃣ Start the server

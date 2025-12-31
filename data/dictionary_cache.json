@@ -782,5 +782,37 @@
     "example": "Vi skal have en fest til lavn.",
     "examplePersian": "ما باید یک جشن برای روزهای جشنواره داشته باشیم.",
     "cachedAt": "2025-12-24T16:29:30.984Z"
+  },
+  "sportsbegivenheder": {
+    "word": "sportsbegivenheder",
+    "persian": "رویدادهای ورزشی",
+    "pronunciation": "/ˈspɔːtsbɛɡiˌvenˌheðɐ/",
+    "example": "Vi deltager i mange sportsbegivenheder hvert år.",
+    "examplePersian": "ما هر سال در بسیاری از رویدادهای ورزشی شرکت می‌کنیم.",
+    "cachedAt": "2025-12-31T11:59:42.990Z"
+  },
+  "dannebrog": {
+    "word": "dannebrog",
+    "persian": "پرچم دانمارک",
+    "pronunciation": "/ˈdænəˌbʁɔɡ/",
+    "example": "Dannebrog er Danmarks nationalflag.",
+    "examplePersian": "پرچم دانمارک پرچم ملی دانمارک است.",
+    "cachedAt": "2025-12-31T12:00:06.757Z"
+  },
+  "flag": {
+    "word": "flag",
+    "persian": "پرچم",
+    "pronunciation": "/flæɡ/",
+    "example": "Danmark har et smukt flag.",
+    "examplePersian": "دانمارک یک پرچم زیبا دارد.",
+    "cachedAt": "2025-12-31T12:00:27.431Z"
+  },
+  "fødselsdage": {
+    "word": "fødselsdage",
+    "persian": "سالروز تولد",
+    "pronunciation": "/ˈføːsəlsˌdæːɡə/",
+    "example": "Vi fejrer mange fødselsdage i familien.",
+    "examplePersian": "ما در خانواده بسیاری از سالروزهای تولد را جشن می‌گیریم.",
+    "cachedAt": "2025-12-31T12:01:03.709Z"
   }
 }

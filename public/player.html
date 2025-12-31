@@ -64,16 +64,40 @@
                 </div>
                 
                 <!-- Whisper Sync Button -->
-                <button id="sync-btn" class="sync-btn">
+                <button id="sync-btn" class="sync-btn hidden">
                     🎙️ همزمان‌سازی با Whisper
                 </button>
                 
                 <!-- Status Messages -->
                 <div id="sync-status" class="sync-status hidden"></div>
             </div>
+            <!-- =========================
+            Progress Message
+            ========================= -->
+            <div id="progress-message" class="progress-message"></div>
+            <!-- 🧪 Quiz A Button (TEMP) -->
+            <button
+            id="quiz-a-btn"
+            class="quiz-btn hidden"
+            >
+            📝 شروع آزمون A
+            </button>
+            <button id="quiz-a-done-btn" class="hidden">
+                ✅ پایان آزمون A
+            </button>
+            <button id="quiz-b-btn" class="quiz-btn hidden">
+                🧠 شروع آزمون B
+            </button>
+            <button
+            id="quiz-b-done-btn"
+            class="hidden"
+            >
+            ✅ پایان آزمون B
+            </button>
+                
 
             <!-- Transcript Section -->
-            <div class="transcript-section">
+            <div class="transcript-section hidden">
                 <div class="transcript-header">
                     <h2>متن پادکست</h2>
                     <button id="toggle-translation-btn" class="toggle-btn hidden">
@@ -163,12 +187,38 @@
         // ====================================
 
         const audioPlayer = document.getElementById('audio-player');
+
+        // ====================================
+// 🧪 TEST: audio events
+// ====================================
+
+audioPlayer.addEventListener('play', () => {
+    console.log('▶️ audio play fired');
+});
+
+audioPlayer.addEventListener('pause', () => {
+    console.log('⏸️ audio pause fired');
+});
+
+audioPlayer.addEventListener('ended', () => {
+    console.log('🛑 audio ended fired');
+});
+
+
+
+
+
+
+
+        // ====================================
         const audioSource = document.getElementById('audio-source');
         const podcastTitle = document.getElementById('podcast-title');
         const transcriptContainer = document.getElementById('transcript-container');
         const syncBtn = document.getElementById('sync-btn');
         const syncStatus = document.getElementById('sync-status');
         const toggleTranslationBtn = document.getElementById('toggle-translation-btn');
+        const quizBBtn = document.getElementById('quiz-b-btn');
+        const quizBDoneBtn = document.getElementById('quiz-b-done-btn');
 
         // Navigation buttons
         const prevSegmentBtn = document.getElementById('prev-segment-btn');
@@ -179,6 +229,12 @@
         let currentSegmentIndex = -1;
         let showTranslation = false;
         let currentDefinition = null;
+        // ===============================
+        // Learning State (GLOBAL)
+        // ===============================
+        // وضعیت فعلی یادگیری این پادکست
+        let currentLearningState = null;
+            
         // ======================================
         // Popup + Modal state flags
       // ===== START: modal state flags =====
@@ -577,6 +633,40 @@
                 }, 5000);
             }
         }
+        // 🧪 TEMP TEST: force state
+    currentLearningState = 'LISTENING_FIRST';
+
+                // ====================================
+        // 🎧 Detect end of podcast (FIRST LISTEN)
+        // ====================================
+
+        // وقتی فایل صوتی تا انتها پخش می‌شود
+        audioPlayer.addEventListener('ended', async () => {
+
+        console.log('✅ Podcast finished playing');
+
+        // فقط اگر در مرحله شنیدن اول هستیم
+        if (currentLearningState === 'LISTENING_FIRST') {
+            console.log('➡️ Transition to FIRST_LISTEN_COMPLETED');
+
+            // اطلاع به سرور که این مرحله تمام شده
+            await updatePodcastState('FIRST_LISTEN_COMPLETED');
+
+            // بعد از آپدیت، وضعیت جدید را دوباره بگیر
+            await fetchPodcastState();
+
+            // UI را دوباره بر اساس state جدید تنظیم کن
+           applyLearningState();
+        }
+        if (currentLearningState === 'SECOND_LISTEN') {
+        console.log('➡️ Transition to AFTER_SECOND_LISTEN');
+
+        await updatePodcastState('AFTER_SECOND_LISTEN');
+        await fetchPodcastState();
+        applyLearningState();
+    }
+        });
+
 
         // ====================================
         // Initialize
@@ -935,7 +1025,308 @@ dictCloseBtn.addEventListener('click', () => {
         console.error('Save error:', error);
     }
 });
+/* ======================================
+= 🎯 Apply Progress State to Player UI
+====================================== */
+    function applyProgressState(ui) {
 
+    // 🎧 Transcript
+    if (!ui.canSeeTranscript) {
+    document
+        .querySelector('.transcript-section')
+        .classList.add('hidden');
+    }
+
+    // 🌐 Translation toggle
+    if (!ui.canSeeTranslation) {
+    toggleTranslationBtn.classList.add('hidden');
+    }
+
+  /*   // 🧠 Quiz buttons (later)
+    if (!ui.canTakeQuizA) {
+    hideQuizAButton();
+    }
+
+    if (!ui.canTakeQuizB) {
+    hideQuizBButton();
+    } */
+
+    // 💬 Message
+    const msgBox = document.getElementById('progress-message');
+    msgBox.textContent = ui.message;
+    }
+            /* ======================================
+        = 🔄 Load progress state on page load
+        ====================================== */
+        async function loadProgressState() {
+        try {
+            const res = await fetch(
+            `http://localhost:3000/api/podcast/${podcastId}/progress`
+            );
+
+            const uiState = await res.json();
+
+            applyProgressState(uiState);
+
+        } catch (err) {
+            console.error("Progress load failed", err);
+        }
+        }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+    loadPodcast();
+
+    // 🔄 لود state یادگیری از سرور
+    await fetchPodcastState();
+
+    // 🎯 اعمال state روی UI
+    applyLearningState();
+
+    // 🧠 UI Progress (جداگانه)
+    loadProgressState();
+});
+
+
+        // ====================================
+// 🔄 Update learning state on server
+// ====================================
+async function updatePodcastState(newState) {
+    try {
+        const response = await fetch(
+            `http://localhost:3000/api/podcast/${podcastId}/state`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ state: newState })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error('Failed to update state');
+        }
+
+        console.log('✅ State updated to:', newState);
+
+    } catch (err) {
+        console.error('❌ State update error:', err);
+    }
+}
+        /* ======================================
+        = 🧠 Apply Learning State to UI (MINIMAL)
+        = فقط برای تست اتصال state → UI
+        ====================================== */
+        /* ======================================
+= 🧠 Apply Learning State to UI (SAFE VERSION)
+= بر اساس نسخه‌ای که قبلاً کار می‌کرد
+====================================== */
+function applyLearningState() {
+    console.log('🎯 applyLearningState called');
+    console.log('📌 currentLearningState =', currentLearningState);
+
+    const msgBox = document.getElementById('progress-message');
+    const quizABtn = document.getElementById('quiz-a-btn');
+    const transcriptContainer = document.getElementById('transcript-container');
+    quizABtn.addEventListener('click', async () => {
+    console.log('🧪 Quiz A started');
+
+    // 1️⃣ تغییر state در سرور
+    await updatePodcastState('QUIZ_A_STARTED');
+
+    // 2️⃣ گرفتن state جدید
+    await fetchPodcastState();
+
+    // 3️⃣ اعمال state روی UI
+    applyLearningState();
+});
+const quizADoneBtn = document.getElementById('quiz-a-done-btn');
+
+quizADoneBtn.addEventListener('click', async () => {
+    console.log('✅ Quiz A completed');
+
+    await updatePodcastState('SECOND_LISTEN');
+    await fetchPodcastState();
+    applyLearningState();
+});
+quizBBtn.addEventListener('click', async () => {
+    console.log('🧠 Quiz B started');
+
+    // 1️⃣ تغییر state در سرور
+    await updatePodcastState('QUIZ_B_STARTED');
+
+    // 2️⃣ دریافت state جدید
+    await fetchPodcastState();
+
+    // 3️⃣ اعمال روی UI
+    applyLearningState();
+});
+quizBDoneBtn.addEventListener('click', async () => {
+    console.log('🎉 Quiz B completed');
+
+    // 1️⃣ ذخیره state نهایی
+    await updatePodcastState('QUIZ_B_COMPLETED');
+
+    // 2️⃣ دریافت state جدید
+    await fetchPodcastState();
+
+    // 3️⃣ اعمال روی UI
+    applyLearningState();
+});
+
+
+    if (!msgBox || !quizABtn) return;
+
+    // ⛔ اگر state هنوز نیامده
+    if (!currentLearningState) {
+        msgBox.textContent = '⏳ در حال آماده‌سازی...';
+        quizABtn.classList.add('hidden');
+        return;
+    }
+
+    // 🔒 پیش‌فرض امن
+    quizABtn.classList.add('hidden');
+
+   
+    // =========================
+    // 🎧 FIRST LISTEN
+    // =========================
+    if (currentLearningState === 'LISTENING_FIRST') {
+        msgBox.textContent =
+            '🎧 فقط گوش بده، هنوز نیازی به آزمون نیست 🙂';
+        return;
+    }
+
+    // =========================
+    // ✅ AFTER FIRST LISTEN
+    // =========================
+    if (currentLearningState === 'FIRST_LISTEN_COMPLETED') {
+        msgBox.textContent =
+            '✅ مرحله شنیدن اول تمام شد. می‌تونی آزمون A رو شروع کنی.';
+        quizABtn.classList.remove('hidden'); // ✅ این خط حیاتی است
+        return;
+    }
+
+    // =========================
+    // 📖 SECOND LISTEN
+    // =========================
+   /*  if (currentLearningState === 'SECOND_LISTEN') {
+        msgBox.textContent =
+            '📖 این بار با متن گوش بده';
+        if (transcriptContainer) {
+            transcriptContainer.classList.remove('hidden');
+        }
+        return;
+    } */
+
+   
+    // =========================
+// 🧪 QUIZ A STARTED
+// =========================
+if (currentLearningState === 'QUIZ_A_STARTED') {
+    msgBox.textContent =
+      '🧠 آزمون درک مطلب مرحله اول. با دقت جواب بده 🙂';
+    quizABtn.classList.add('hidden');
+    quizADoneBtn.classList.remove('hidden');
+    return;
+}
+
+if (currentLearningState === 'SECOND_LISTEN') {
+    quizADoneBtn.classList.add('hidden');
+
+    const transcriptSection =
+      document.querySelector('.transcript-section');
+
+    transcriptSection.classList.remove('hidden');
+
+    msgBox.textContent =
+      '📖 حالا یک بار دیگر با متن گوش بده';
+
+    return;
+}
+ // =========================
+    // 🌍 AFTER SECOND LISTEN
+    // =========================
+    if (currentLearningState === 'AFTER_SECOND_LISTEN') {
+
+    const transcriptSection =
+    document.querySelector('.transcript-section');
+    transcriptSection.classList.remove('hidden');
+
+    syncBtn.classList.remove('hidden');
+    toggleTranslationBtn.classList.remove('hidden');
+
+    quizBBtn.classList.remove('hidden');
+
+    // 🧠 اگر transcript تایم‌دار داریم
+    if (transcriptData && transcriptData.segments) {
+        displayTranscriptWithTimestamps(transcriptData);
+        setupHighlighting();
+        setTimeout(makeWordsClickable, 100);
+    } else {
+        // ❗ فقط متن ساده باقی بماند
+        console.log('ℹ️ No timed transcript yet');
+    }
+
+    msgBox.textContent =
+    '🚀 حالا می‌تونی عمیق یاد بگیری';
+
+    return;
+    }
+        // =========================
+    // 🧠 QUIZ B STARTED
+    // =========================
+    if (currentLearningState === 'QUIZ_B_STARTED') {
+        msgBox.textContent =
+        '🧠 آزمون درک مطلب مرحله دوم. تمرکز کن 🙂';
+
+        quizBBtn.classList.add('hidden');
+        quizBDoneBtn.classList.remove('hidden');
+        return;
+    }
+
+    // =========================
+    // 🎉 QUIZ B COMPLETED
+    // =========================
+    if (currentLearningState === 'QUIZ_B_COMPLETED') {
+        msgBox.textContent =
+        '🎉 این پادکست را با موفقیت به پایان رساندی!';
+
+        quizBDoneBtn.classList.add('hidden');
+        return;
+    }
+
+
+
+}
+
+       
+/* ======================================
+= 🔄 Fetch learning state from server
+====================================== */
+async function fetchPodcastState() {
+    try {
+        const response = await fetch(
+            `http://localhost:3000/api/podcast/${podcastId}/state`
+        );
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch podcast state');
+        }
+
+        const data = await response.json();
+
+        console.log('📥 Fetched learning state from server:', data.state);
+
+        // ✅ مهم‌ترین خط
+        currentLearningState = data.state;
+
+        console.log('🧠 currentLearningState updated to:', currentLearningState);
+
+    } catch (err) {
+        console.error('❌ fetchPodcastState error:', err);
+    }
+}
+
+ 
 
     </script>
 </body>

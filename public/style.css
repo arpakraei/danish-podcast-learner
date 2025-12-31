@@ -1291,7 +1291,17 @@ body {
 }
 
 /* ===== END: modal scroll lock ===== */
-
+.hidden {
+    display: none;
+  }
+  
+  .quiz-btn {
+    margin-top: 16px;
+    padding: 10px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
 /* ====================================
    Responsive Design
    ==================================== */
