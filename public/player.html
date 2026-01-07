@@ -79,6 +79,10 @@
                     <button id="toggle-translation-btn" class="toggle-btn hidden">
                         🌐 نمایش ترجمه
                     </button>
+                    <button id="keywords-btn" class="toggle-btn">
+                        💡 کلمات کلیدی
+                    </button>
+                    
                 </div>
                 <div id="transcript-container" class="transcript-container">
                     <p class="loading-text">در حال بارگذاری متن...</p>
@@ -131,6 +135,27 @@
             </div>
         </div>
     </div>
+    <div id="mini-player" class="mini-player hidden">
+        <button onclick="seekBackward()">⏪ 5s</button>
+        <button onclick="togglePlay()">⏯</button>
+        <button onclick="seekForward()">5s ⏩</button>
+        <button onclick="toggleSpeed()">⚡</button>
+    </div>
+    <!-- ===========================
+     Modal: Keywords Popup
+=========================== -->
+<div id="keywords-modal" class="keywords-modal hidden">
+    <div class="keywords-box">
+        <h3>کلمات کلیدی پادکست</h3>
+        <div id="keywords-list" class="keywords-list">
+            در حال بارگذاری...
+        </div>
+
+        <button class="close-modal-btn" onclick="closeKeywordsModal()">
+            بستن
+        </button>
+    </div>
+</div>
 
     <script>
         // ====================================
@@ -154,6 +179,16 @@
         let currentSegmentIndex = -1;
         let showTranslation = false;
         let currentDefinition = null;
+        // ======================================
+        // Popup + Modal state flags
+      // ===== START: modal state flags =====
+        // آیا مودال کلمات کلیدی باز است؟
+        let isKeywordModalOpen = false;
+
+        // برای اینکه بدانیم قبل از باز شدن دیکشنری، صدا در حال پخش بود یا نه
+        let wasPlayingBeforePopup = false;
+        // ===== END: modal state flags =====
+
 
         // Dictionary elements
         const dictPopup = document.getElementById('dictionary-popup');
@@ -553,58 +588,63 @@
         // ====================================
         
         // Text-to-Speech for pronunciation
-        function speakWord(word) {
-            if ('speechSynthesis' in window) {
-                // Cancel any ongoing speech
-                window.speechSynthesis.cancel();
-                
-                const utterance = new SpeechSynthesisUtterance(word);
-                
-                // Try to use Danish voice
-                const voices = window.speechSynthesis.getVoices();
-                const danishVoice = voices.find(voice => voice.lang.startsWith('da'));
-                
-                if (danishVoice) {
-                    utterance.voice = danishVoice;
-                }
-                
-                utterance.lang = 'da-DK';
-                utterance.rate = 0.9; // Slightly slower for clarity
-                utterance.pitch = 1;
-                
-                // Visual feedback
-                dictPlayBtn.textContent = '⏸️';
-                dictPlayBtn.disabled = true;
-                
-                utterance.onend = () => {
-                    dictPlayBtn.textContent = '🔊';
-                    dictPlayBtn.disabled = false;
-                };
-                
-                utterance.onerror = () => {
-                    dictPlayBtn.textContent = '🔊';
-                    dictPlayBtn.disabled = false;
-                    alert('خطا در پخش تلفظ');
-                };
-                
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert('مرورگر شما از پخش صوت پشتیبانی نمی‌کند');
-            }
+        /* ===============================================
+   🔊 Play pronunciation using backend ElevenLabs TTS
+   Works same as vocabulary page
+   =============================================== */
+async function playWord(word) {
+    try {
+        dictPlayBtn.disabled = true;
+        dictPlayBtn.textContent = "⏳";
+
+        // Request audio buffer
+        const response = await fetch("http://localhost:3000/api/dictionary/pronounce", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ word })
+        });
+
+        if (!response.ok) {
+            throw new Error("Pronunciation failed");
         }
+
+        // Convert to blob and play
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+
+        audio.onended = () => {
+            URL.revokeObjectURL(audioUrl);
+            dictPlayBtn.textContent = "🔊";
+            dictPlayBtn.disabled = false;
+        };
+
+        audio.onerror = () => {
+            URL.revokeObjectURL(audioUrl);
+            dictPlayBtn.textContent = "🔊";
+            dictPlayBtn.disabled = false;
+            alert("خطا در پخش صوت");
+        };
+
+        audio.play();
+
+    } catch (err) {
+        console.error("TTS error:", err);
+        alert("خطا در پخش تلفظ");
+        dictPlayBtn.disabled = false;
+        dictPlayBtn.textContent = "🔊";
+    }
+}
+
         
         // Play pronunciation button
         dictPlayBtn.addEventListener('click', () => {
-            if (currentDefinition && currentDefinition.word) {
-                speakWord(currentDefinition.word);
-            }
-        });
-        
-        // Close dictionary popup
-        dictCloseBtn.addEventListener('click', () => {
-            dictPopup.classList.add('hidden');
-        });
+    if (currentDefinition && currentDefinition.word) {
+        playWord(currentDefinition.word);
+    }
+});
 
+        
         // Click outside to close
         dictPopup.addEventListener('click', (e) => {
             if (e.target === dictPopup) {
@@ -614,72 +654,56 @@
 
         // Lookup word
         async function lookupWord(word, context = '') {
-            dictPopup.classList.remove('hidden');
-            dictWord.textContent = word;
-            dictLoading.classList.remove('hidden');
-            dictContent.classList.add('hidden');
-            dictError.classList.add('hidden');
 
-            try {
-                const response = await fetch('http://localhost:3000/api/dictionary/lookup', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ word, context })
-                });
+                // ================================
+        // 🔄 Reset Save button state
+        // ================================
+        dictSaveBtn.disabled = false;          // فعال شود
+        dictSaveBtn.textContent = '⭐ ذخیره';   // متن پیش‌فرض
+        // ================================
 
-                if (!response.ok) throw new Error('Lookup failed');
-
-                const definition = await response.json();
-                currentDefinition = definition;
-
-                // Display definition
-                dictPersian.textContent = definition.persian || 'N/A';
-                dictPronunciation.textContent = definition.pronunciation || 'N/A';
-                dictExample.textContent = definition.example || '';
-                dictExamplePersian.textContent = definition.examplePersian || '';
-
-                dictLoading.classList.add('hidden');
-                dictContent.classList.remove('hidden');
-
-            } catch (error) {
-                console.error('Dictionary error:', error);
-                dictLoading.classList.add('hidden');
-                dictError.classList.remove('hidden');
-            }
+        // اگر پادکست پلی بود pause می‌کنیم
+        if (!audioPlayer.paused) {
+            wasPlayingBeforePopup = true;
+            audioPlayer.pause();
+        } else {
+            wasPlayingBeforePopup = false;
         }
 
-        // Save word
-        dictSaveBtn.addEventListener('click', async () => {
-            if (!currentDefinition) return;
+       // disableScroll();
 
-            try {
-                const response = await fetch('http://localhost:3000/api/dictionary/save', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        word: currentDefinition.word,
-                        definition: currentDefinition
-                    })
-                });
+        dictPopup.classList.remove('hidden');
+        dictWord.textContent = word;
+        dictLoading.classList.remove('hidden');
+        dictContent.classList.add('hidden');
+        dictError.classList.add('hidden');
 
-                const result = await response.json();
-                
-                if (result.saved) {
-                    dictSaveBtn.textContent = '✅ ذخیره شد';
-                    dictSaveBtn.disabled = true;
-                    setTimeout(() => {
-                        dictSaveBtn.textContent = '⭐ ذخیره';
-                        dictSaveBtn.disabled = false;
-                    }, 2000);
-                } else {
-                    alert('این کلمه قبلاً ذخیره شده است');
-                }
+        try {
+            const response = await fetch('http://localhost:3000/api/dictionary/lookup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ word, context })
+            });
 
-            } catch (error) {
-                console.error('Save error:', error);
-                alert('خطا در ذخیره کلمه');
-            }
-        });
+            if (!response.ok) throw new Error('Lookup failed');
+
+            const definition = await response.json();
+            currentDefinition = definition;
+
+            dictPersian.textContent = definition.persian || 'N/A';
+            dictPronunciation.textContent = definition.pronunciation || 'N/A';
+            dictExample.textContent = definition.example || '';
+            dictExamplePersian.textContent = definition.examplePersian || '';
+
+            dictLoading.classList.add('hidden');
+            dictContent.classList.remove('hidden');
+
+        } catch (error) {
+            console.error('Dictionary error:', error);
+            dictLoading.classList.add('hidden');
+            dictError.classList.remove('hidden');
+        }
+        }
 
         // Make words clickable in transcript
         function makeWordsClickable() {
@@ -711,6 +735,208 @@
                 });
             });
         }
+ /*===========================
+= 📌 Mini Player Logic (fixed)
+===========================*/
+
+// ❗ استفاده از همان audioPlayer بالا 👇
+// const audioPlayer = document.getElementById("audio-player");  ⛔ حذف شود
+
+const miniPlayer = document.getElementById("mini-player");
+
+/**
+ * 🎯 تشخیص اینکه پلیر اصلی دیده می‌شود یا نه
+ * اگر دیده نشود و در حال پخش باشد → MiniPlayer نمایش داده می‌شود
+ */
+function handleMiniPlayerVisibility() {
+  const rect = audioPlayer.getBoundingClientRect();
+
+  const visible =
+    rect.top >= 0 && rect.bottom <= window.innerHeight;
+
+  if (!audioPlayer.paused && !visible) {
+    miniPlayer.classList.remove("hidden");
+  } else {
+    miniPlayer.classList.add("hidden");
+  }
+}
+
+// 📌 اتصال رویدادها
+window.addEventListener("scroll", handleMiniPlayerVisibility);
+audioPlayer.addEventListener("play", handleMiniPlayerVisibility);
+//audioPlayer.addEventListener("pause", () => miniPlayer.classList.add("hidden"));
+
+/**
+ * ▶️ پخش / توقف
+ */
+function togglePlay() {
+  if (audioPlayer.paused) audioPlayer.play();
+  else audioPlayer.pause();
+}
+
+/**
+ * ⏪ ۵ ثانیه عقب
+ */
+function seekBackward() {
+  audioPlayer.currentTime -= 5;
+}
+
+/**
+ * ⏩ ۵ ثانیه جلو
+ */
+function seekForward() {
+  audioPlayer.currentTime += 5;
+}
+
+/**
+ * ⚡ تغییر سرعت بین 1 و 0.8
+ */
+function toggleSpeed() {
+  audioPlayer.playbackRate =
+    audioPlayer.playbackRate === 1 ? 0.8 : 1;
+}
+
+/*===========================
+= 🔚 End Mini Player Logic
+===========================*/
+// ================================
+// Load keywords for podcast
+// ================================
+async function loadKeywords() {
+    try {
+        // وقتی popup باز می‌شود پخش متوقف شود
+        audioPlayer.pause();
+
+        document.getElementById('keywords-list').innerHTML = 'در حال پردازش...';
+
+        const response = await fetch(
+            `http://localhost:3000/api/podcast/${podcastId}/keywords`
+        );
+
+        if (!response.ok) throw new Error('Keyword request failed');
+
+        const result = await response.json();
+
+        // نمایش مرتب
+        const html = result.keywords
+    .map(kw => `
+        <div class="kw-item" onclick="onKeywordClick('${kw.word}')">
+            ${kw.word} <span class="count">(${kw.count})</span>
+        </div>
+    `)
+    .join('');
+
+            
+
+        document.getElementById('keywords-list').innerHTML = html || 'هیچ کلمه‌ای یافت نشد';
+
+    } catch (err) {
+        console.error(err);
+        document.getElementById('keywords-list').innerHTML = '❌ خطا در دریافت داده‌ها';
+    }
+}
+
+// open modal
+document.getElementById("keywords-btn").addEventListener("click", () => {
+    document.getElementById("keywords-modal").classList.remove("hidden");
+    loadKeywords();
+});
+
+// close
+function closeKeywordsModal() {
+    document.getElementById("keywords-modal").classList.add("hidden");
+}
+/* ==========================================
+✔ CLICK KEYWORD = close modal + pause + dictionary
+========================================== */
+/* ==========================================
+✔ CLICK KEYWORD = pause + dictionary popup
+========================================== */
+async function onKeywordClick(word) {
+
+        wasPlayingBeforePopup = !audioPlayer.paused;
+
+        audioPlayer.pause();
+       
+        // popup overlay ONLY
+        dictPopup.classList.remove("hidden");
+       
+        lookupWord(word);
+        }
+
+
+    // ======================================
+    // Enable/Disable scrolling of page
+    // ======================================
+    // ===== START: scroll helpers =====
+    function disableScroll() {
+        // قفل کردن اسکرول کل صفحه
+        document.body.classList.add('no-scroll');
+    }
+
+    function enableScroll() {
+        // آزاد کردن اسکرول
+        document.body.classList.remove('no-scroll');
+    }
+    // ===== END: scroll helpers =====
+
+// ======================================
+// Keyword modal
+// ======================================
+// ===== START: keyword modal controls =====
+const keywordModal = document.getElementById('keyword-modal');
+
+function openKeywordModal() {
+    if (!keywordModal) return;
+    keywordModal.classList.remove('hidden');
+    isKeywordModalOpen = true;
+    disableScroll();
+}
+
+function closeKeywordModal() {
+    keywordModal.classList.add('hidden');
+    isKeywordModalOpen = false;
+
+    enableScroll(); // فقط وقتی modal بسته می‌شود
+}
+
+// ===== END: keyword modal controls =====
+dictCloseBtn.addEventListener('click', () => {
+
+        dictPopup.classList.add('hidden');
+
+        if (wasPlayingBeforePopup && !audioPlayer.paused) {
+            audioPlayer.play();
+        }
+
+        // modal هنوز باز است پس scroll unlock نکن
+        });
+
+        dictSaveBtn.addEventListener('click', async () => {
+    if (!currentDefinition) return;
+
+    try {
+        const response = await fetch('http://localhost:3000/api/dictionary/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                word: currentDefinition.word,
+                definition: currentDefinition
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.saved) {
+            dictSaveBtn.textContent = '✅ ذخیره شد';
+            dictSaveBtn.disabled = true;
+        }
+    } catch (error) {
+        console.error('Save error:', error);
+    }
+});
+
+
     </script>
 </body>
 </html>

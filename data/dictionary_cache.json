@@ -1,4 +1,12 @@
 {
+  "27": {
+    "word": "27",
+    "persian": "بیست و هفت",
+    "pronunciation": "/biːst o hæft/",
+    "example": "Vi skal mødes den 27. februar.",
+    "examplePersian": "ما باید در بیست و هفتم فوریه ملاقات کنیم.",
+    "cachedAt": "2025-12-24T15:13:55.850Z"
+  },
   "velkommen": {
     "word": "velkommen",
     "persian": "خوش آمدید",
@@ -158,5 +166,621 @@
     "example": "Vi pynter vores hjem med juledekorationer.",
     "examplePersian": "ما خانه‌مان را با تزئینات کریسمس تزئین می‌کنیم.",
     "cachedAt": "2025-12-18T22:18:16.861Z"
+  },
+  "julepynt": {
+    "word": "Julepynt",
+    "persian": "تزئینات کریسمس",
+    "pronunciation": "/juːləˌpʏnt/",
+    "example": "Julepynt er ofte nisser, flettede julestjerner og julehjerter.",
+    "examplePersian": "تزئینات کریسمس معمولاً شامل نُسُرها، ستاره‌های بافته شده و قلب‌های کریسمس است.",
+    "cachedAt": "2025-12-20T12:41:03.593Z"
+  },
+  "foreningsliv": {
+    "word": "foreningsliv",
+    "persian": "زندگی انجمنی",
+    "pronunciation": "/foˈʁeːnɪŋsliːv/",
+    "example": "Foreningslivet i Danmark er meget aktivt.",
+    "examplePersian": "زندگی انجمنی در دانمارک بسیار فعال است.",
+    "cachedAt": "2025-12-20T14:51:24.403Z"
+  },
+  "grundstenene": {
+    "word": "grundstenene",
+    "persian": "سنگ بنای",
+    "pronunciation": "/ɡʁunˈsteːnə/",
+    "example": "Uddannelse er en af grundstenene i vores samfund og kultur.",
+    "examplePersian": "آموزش یکی از سنگ بنای جامعه و فرهنگ ماست.",
+    "cachedAt": "2025-12-20T14:51:56.533Z"
+  },
+  "podcasten": {
+    "word": "podcasten",
+    "persian": "پادکست",
+    "pronunciation": "/ˈpʰɔdˌkæst/",
+    "example": "Jeg elsker at lytte til podcasten.",
+    "examplePersian": "من عاشق گوش دادن به پادکست هستم.",
+    "cachedAt": "2025-12-20T15:24:14.520Z"
+  },
+  "modersmål": {
+    "word": "modersmål",
+    "persian": "زبان مادری",
+    "pronunciation": "/ˈmɔːdɐsˌmɔːl/",
+    "example": "Selvom man ikke har dansk som sit modersmål.",
+    "examplePersian": "هرچند که فرد زبان دانمارکی را به عنوان زبان مادری ندارد.",
+    "cachedAt": "2025-12-20T15:25:08.101Z"
+  },
+  "hovedstad": {
+    "word": "hovedstad",
+    "persian": "پایتخت",
+    "pronunciation": "/ˈhoʊ̯ðˌstæːð/",
+    "example": "København er Danmarks hovedstad.",
+    "examplePersian": "کپنهاگ پایتخت دانمارک است.",
+    "cachedAt": "2025-12-21T10:47:24.055Z"
+  },
+  "fløjen": {
+    "word": "fløjen",
+    "persian": "چپ",
+    "pronunciation": "/flø.jən/",
+    "example": "Partierne på venstre fløjen arbejder for social retfærdighed.",
+    "examplePersian": "حزب‌های چپ برای عدالت اجتماعی کار می‌کنند.",
+    "cachedAt": "2025-12-21T11:01:13.803Z"
+  },
+  "venstre": {
+    "word": "venstre",
+    "persian": "چپ",
+    "pronunciation": "/ˈvɛn.stʁə/",
+    "example": "Partierne på venstre fløjen arbejder for social retfærdighed.",
+    "examplePersian": "احزاب در جناح چپ برای عدالت اجتماعی کار می‌کنند.",
+    "cachedAt": "2025-12-21T11:01:38.644Z"
+  },
+  "folketinget": {
+    "word": "Folketinget",
+    "persian": "پارلمان دانمارک",
+    "pronunciation": "/ˈfɔlˌkeːtɪŋ/",
+    "example": "Den lovgivende magt er placeret i det danske parlament, i Folketinget.",
+    "examplePersian": "قدرت قانون‌گذاری در پارلمان دانمارک، در Folketinget قرار دارد.",
+    "cachedAt": "2025-12-21T11:02:44.819Z"
+  },
+  "besluttet": {
+    "word": "besluttet",
+    "persian": "تصمیم‌گیری شده",
+    "pronunciation": "/bɛsˈlʊtəd/",
+    "example": "Nogle ting bliver dog besluttet i Danmarks regioner og kommuner.",
+    "examplePersian": "برخی امور در مناطق و شهرداری‌های دانمارک تصمیم‌گیری می‌شوند.",
+    "cachedAt": "2025-12-21T11:04:19.185Z"
+  },
+  "folkevalgte": {
+    "word": "folkevalgte",
+    "persian": "منتخبین مردم",
+    "pronunciation": "mʊntɛxɛbiːn mɑrdɔm",
+    "example": "I Folketinget sidder 179 folkevalgte politikere.",
+    "examplePersian": "در مجلس ملی ۱۷۹ منتخبین مردم نشسته‌اند.",
+    "cachedAt": "2025-12-21T11:05:16.161Z"
+  },
+  "højreorienterede": {
+    "word": "højreorienterede",
+    "persian": "راست‌گرا",
+    "pronunciation": "/ˈhœjʁeˌʊʁiːɛnˈtʁeːðə/",
+    "example": "De blå partier er de højreorienterede og mere liberale partier.",
+    "examplePersian": "احزاب آبی، احزاب راست‌گرا و لیبرال‌تری هستند.",
+    "cachedAt": "2025-12-21T11:07:38.871Z"
+  },
+  "regeringen": {
+    "word": "Regeringen",
+    "persian": "دولت",
+    "pronunciation": "/ʁeˈɡeːʁiŋən/",
+    "example": "Regeringen består af Socialdemokratiet.",
+    "examplePersian": "دولت از حزب سوسیال دموکرات تشکیل شده است.",
+    "cachedAt": "2025-12-21T11:21:56.476Z"
+  },
+  "venstreorienterede": {
+    "word": "venstreorienterede",
+    "persian": "چپ‌گرا",
+    "pronunciation": "/ˈvɛnˌsʁ̥øːʁiˌɛntʁ̥əðə/",
+    "example": "De røde partier er de venstreorienterede og mere socialistiske partier.",
+    "examplePersian": "احزاب سرخ، احزاب چپ‌گرا و سوسیالیستی هستند.",
+    "cachedAt": "2025-12-21T14:33:11.510Z"
+  },
+  "kristendemokraterne": {
+    "word": "Kristendemokraterne",
+    "persian": "مسیحی دموکرات‌ها",
+    "pronunciation": "/kʁisˈteːnəˌmɔkʁaˌtɒːnə/",
+    "example": "Kristendemokraterne har en vigtig rolle i dansk politik.",
+    "examplePersian": "مسیحی دموکرات‌ها نقش مهمی در سیاست دانمارک دارند.",
+    "cachedAt": "2025-12-21T14:37:22.221Z"
+  },
+  "partierne": {
+    "word": "partierne",
+    "persian": "احزاب",
+    "pronunciation": "/ˈpɑːʁtiːɐ̯nə/",
+    "example": "De forskellige partierne har forskellige meninger.",
+    "examplePersian": "احزاب مختلف نظرات متفاوتی دارند.",
+    "cachedAt": "2025-12-21T14:57:51.975Z"
+  },
+  "parlamentarisk": {
+    "word": "parlamentarisk",
+    "persian": "پارلمانی",
+    "pronunciation": "/pɑːləmɛnˈtɑːʁisk/",
+    "example": "Danmark er et parlamentarisk demokrati.",
+    "examplePersian": "دانمارک یک دموکراسی پارلمانی است.",
+    "cachedAt": "2025-12-21T14:58:50.216Z"
+  },
+  "lovgivende": {
+    "word": "lovgivende",
+    "persian": "قانون‌گذاری",
+    "pronunciation": "/lɔːˈɡiːvənə/",
+    "example": "Den lovgivende magt er placeret i det danske parlament, i Folketinget.",
+    "examplePersian": "قدرت قانون‌گذاری در پارلمان دانمارک، در فُولکِتینگه قرار دارد.",
+    "cachedAt": "2025-12-21T14:59:26.532Z"
+  },
+  "magt": {
+    "word": "magt",
+    "persian": "قدرت",
+    "pronunciation": "/mɑɡt/",
+    "example": "Den lovgivende magt er placeret i det danske parlament, i Folketinget.",
+    "examplePersian": "قدرت قانون‌گذاری در پارلمان دانمارک، در فُولکِتینگ قرار دارد.",
+    "cachedAt": "2025-12-21T14:59:40.613Z"
+  },
+  "også": {
+    "word": "også",
+    "persian": "همچنین",
+    "pronunciation": "/ˈɔsə/",
+    "example": "Jeg kan også lide æbler.",
+    "examplePersian": "من همچنین سیب‌ها را دوست دارم.",
+    "cachedAt": "2025-12-22T08:11:00.590Z"
+  },
+  "fleste": {
+    "word": "fleste",
+    "persian": "بیشتر",
+    "pronunciation": "/ˈfleːstə/",
+    "example": "De fleste mennesker elsker musik.",
+    "examplePersian": "بیشتر مردم موسیقی را دوست دارند.",
+    "cachedAt": "2025-12-22T08:28:46.563Z"
+  },
+  "kan": {
+    "word": "kan",
+    "persian": "می‌تواند",
+    "pronunciation": "/kæn/",
+    "example": "Jeg kan lide æbler.",
+    "examplePersian": "من سیب‌ها را دوست دارم.",
+    "cachedAt": "2025-12-22T09:21:55.280Z"
+  },
+  "julefrokoster": {
+    "word": "julefrokoster",
+    "persian": "ناهارهای کریسمس",
+    "pronunciation": "/ˈjuːləˌfʁɔkʌsˌd̥ɐ/",
+    "example": "Vi skal til julefrokoster i år.",
+    "examplePersian": "ما امسال به ناهارهای کریسمس خواهیم رفت.",
+    "cachedAt": "2025-12-22T10:08:08.483Z"
+  },
+  "næststørste": {
+    "word": "næststørste",
+    "persian": "دومین بزرگترین",
+    "pronunciation": "/ˈnɛsˌsd̥øːʁstə/",
+    "example": "Aarhus er Danmarks næststørste by.",
+    "examplePersian": "آرهوس دومین بزرگترین شهر دانمارک است.",
+    "cachedAt": "2025-12-22T14:51:34.692Z"
+  },
+  "disclaimer": {
+    "word": "disclaimer",
+    "persian": "سلب مسئولیت",
+    "pronunciation": "/sælb mæ'sulijat/",
+    "example": "En lille disclaimer er, at jeg selv bor i Aarhus.",
+    "examplePersian": "یک سلب مسئولیت کوچک این است که من خودم در آرهوس زندگی می‌کنم.",
+    "cachedAt": "2025-12-22T15:37:47.369Z"
+  },
+  "indbyggere": {
+    "word": "indbyggere",
+    "persian": "ساکنان",
+    "pronunciation": "/ˈɛnˌbyɡʌʁʌ/",
+    "example": "Der bor omkring 350.000 indbyggere i Aarhus Kommune.",
+    "examplePersian": "حدود ۳۵۰٫۰۰۰ ساکن در شهرداری آرهوس زندگی می‌کنند.",
+    "cachedAt": "2025-12-22T15:39:08.706Z"
+  },
+  "valgfrit": {
+    "word": "valgfrit",
+    "persian": "اختیاری",
+    "pronunciation": "/ˈvælɡfʁit/",
+    "example": "Det er valgfrit, om man staver Aarhus med å eller dobbelt a.",
+    "examplePersian": "این اختیاری است که آیا آرهوس را با او یا دو برابر آ می‌نویسید.",
+    "cachedAt": "2025-12-22T15:39:37.037Z"
+  },
+  "havneområde": {
+    "word": "havneområde",
+    "persian": "منطقه بندری",
+    "pronunciation": "/ˈhɑːv.nəˌʌm.ʁɑːðə/",
+    "example": "Aarhus har et stort havneområde.",
+    "examplePersian": "آرهوس یک منطقه بندری بزرگ دارد.",
+    "cachedAt": "2025-12-22T15:40:39.883Z"
+  },
+  "sjælland": {
+    "word": "Sjælland",
+    "persian": "زیلند",
+    "pronunciation": "/ˈsjeːlan/",
+    "example": "Man kan sejle med færge fra Aarhus til både Sjælland og Samsø.",
+    "examplePersian": "شما می‌توانید با کشتی از آرهوس به هر دو زیلند و سامسو بروید.",
+    "cachedAt": "2025-12-22T15:41:24.323Z"
+  },
+  "samsø": {
+    "word": "Samsø",
+    "persian": "سامسø",
+    "pronunciation": "/ˈsamsøː/",
+    "example": "Man kan sejle med færge fra Aarhus til både Sjælland og Samsø.",
+    "examplePersian": "می‌توان با قایق از آرهوس به جزیره سامسø و همچنین زلاند رفت.",
+    "cachedAt": "2025-12-22T15:41:34.189Z"
+  },
+  "omgivelser": {
+    "word": "omgivelser",
+    "persian": "محیط",
+    "pronunciation": "/omˈɡiːvəlˌsɐʁ/",
+    "example": "Aarhus er bl.a. populær, fordi den ligger i meget naturrige omgivelser.",
+    "examplePersian": "آرهوس به عنوان مثال محبوب است، زیرا در محیطی بسیار طبیعی قرار دارد.",
+    "cachedAt": "2025-12-22T15:41:56.918Z"
+  },
+  "uddannelsesmuligheder": {
+    "word": "uddannelsesmuligheder",
+    "persian": "امکانات آموزشی",
+    "pronunciation": "/uðˈnɛlsəsˌmuːliˌɡ̊eðɐʁ/",
+    "example": "Der er mange forskellige uddannelsesmuligheder i Aarhus.",
+    "examplePersian": "در آرهوس گزینه‌های آموزشی متنوعی وجود دارد.",
+    "cachedAt": "2025-12-22T15:43:59.021Z"
+  },
+  "uddannelsesinstitution": {
+    "word": "uddannelsesinstitution",
+    "persian": "مؤسسه آموزشی",
+    "pronunciation": "/uˈdænˀelsəsɪnstiˈtʊːɕn/",
+    "example": "Den største uddannelsesinstitution er Aarhus Universitet.",
+    "examplePersian": "بزرگترین مؤسسه آموزشی دانشگاه آرهوس است.",
+    "cachedAt": "2025-12-22T15:44:32.580Z"
+  },
+  "professionsbacheloruddannelser": {
+    "word": "professionsbacheloruddannelser",
+    "persian": "مدرک کارشناسی حرفه‌ای",
+    "pronunciation": "/pʁoˈfɛʃn̩sˌbɛt͡ʃlɒːʁuˈdænːelsɐ/",
+    "example": "Jeg overvejer at tage en professionsbacheloruddannelse.",
+    "examplePersian": "من در نظر دارم که مدرک کارشناسی حرفه‌ای بگیرم.",
+    "cachedAt": "2025-12-22T15:48:06.310Z"
+  },
+  "advend": {
+    "word": "advend",
+    "persian": "آدونت",
+    "pronunciation": "/ˈæd.vɛnd/",
+    "example": "Mange danskere begynder at pynte op til jul omkring første søndag i advend.",
+    "examplePersian": "بسیاری از دانمارکی‌ها از روز یکشنبه اول آدونت برای تزئین کریسمس شروع می‌کنند.",
+    "cachedAt": "2025-12-23T08:57:59.162Z"
+  },
+  "blandt": {
+    "word": "blandt",
+    "persian": "بین",
+    "pronunciation": "/blant/",
+    "example": "Han er blandt de bedste.",
+    "examplePersian": "او بین بهترین‌ها است.",
+    "cachedAt": "2025-12-23T09:12:35.742Z"
+  },
+  "lufthavn": {
+    "word": "lufthavn",
+    "persian": "فرودگاه",
+    "pronunciation": "/ˈlʊfˌhɑʊ̯n/",
+    "example": "Jeg skal tage til lufthavnen i morgen.",
+    "examplePersian": "من فردا به فرودگاه می‌روم.",
+    "cachedAt": "2025-12-23T09:12:52.798Z"
+  },
+  "etableret": {
+    "word": "etableret",
+    "persian": "تأسیس شده",
+    "pronunciation": "etabˈleːʁet",
+    "example": "Virksomheden er etableret i 2010.",
+    "examplePersian": "شرکت در سال ۲۰۱۰ تأسیس شده است.",
+    "cachedAt": "2025-12-23T09:13:05.917Z"
+  },
+  "fastelavnsboller": {
+    "word": "fastelavnsboller",
+    "persian": "کلوچه فستلاوانس",
+    "pronunciation": "/ˈfɑs.tə.lɑːvnsˌbɔ.lər/",
+    "example": "Vi spiser fastelavnsboller til fastelavn.",
+    "examplePersian": "ما در فستلاوان کلوچه فستلاوانس می‌خوریم.",
+    "cachedAt": "2025-12-24T14:20:47.433Z"
+  },
+  "lavns": {
+    "word": "lavns",
+    "persian": "لَوانس",
+    "pronunciation": "/lɑːvns/",
+    "example": "Han lavns et skud.",
+    "examplePersian": "او یک شوت می‌زند.",
+    "cachedAt": "2025-12-24T14:21:36.199Z"
+  },
+  "slik": {
+    "word": "slik",
+    "persian": "شیرینی",
+    "pronunciation": "/sliːk/",
+    "example": "Jeg elsker slik.",
+    "examplePersian": "من شیرینی را دوست دارم.",
+    "cachedAt": "2025-12-24T14:22:03.585Z"
+  },
+  "fejres": {
+    "word": "fejres",
+    "persian": "جشن گرفته می‌شود",
+    "pronunciation": "/ˈfɛjʁəs/",
+    "example": "Faste lavn fejres altid om søndagen syv uger før påskedag.",
+    "examplePersian": "روز یکشنبه، هفت هفته قبل از روز عید پاک، جشن گرفته می‌شود.",
+    "cachedAt": "2025-12-24T15:15:40.803Z"
+  },
+  "ændret": {
+    "word": "ændret",
+    "persian": "تغییر کرده",
+    "pronunciation": "/ˈɛːnʁət/",
+    "example": "Traditionerne omkring Faste lavn har naturligvis ændret sig meget siden da.",
+    "examplePersian": "سنت‌های مربوط به فاسته لاون به طور طبیعی از آن زمان بسیار تغییر کرده است.",
+    "cachedAt": "2025-12-24T15:16:08.660Z"
+  },
+  "fejret": {
+    "word": "fejret",
+    "persian": "جشن گرفته شده",
+    "pronunciation": "/ˈfajʁɛð/",
+    "example": "Vi har fejret Faste lavn siden før 1500-tallet.",
+    "examplePersian": "ما جشن گرفته شده فاست لاون را از قبل از قرن ۱۵۰۰ جشن گرفته‌ایم.",
+    "cachedAt": "2025-12-24T15:16:35.291Z"
+  },
+  "naturligvis": {
+    "word": "naturligvis",
+    "persian": "طبیعتاً",
+    "pronunciation": "/nɑːˈtʊʁlɪˌviːs/",
+    "example": "Det er naturligvis vigtigt at følge reglerne.",
+    "examplePersian": "طبیعتاً پیروی از قوانین مهم است.",
+    "cachedAt": "2025-12-24T15:17:05.723Z"
+  },
+  "stammer": {
+    "word": "stammer",
+    "persian": "ریشه",
+    "pronunciation": "/ˈstæmɚ/",
+    "example": "Faste lavn stammer nemlig fra en gammel kristen tradition.",
+    "examplePersian": "رسم روزه‌داری از یک سنت قدیمی مسیحی ریشه می‌گیرد.",
+    "cachedAt": "2025-12-24T15:19:22.972Z"
+  },
+  "betød": {
+    "word": "betød",
+    "persian": "معنی می‌داد",
+    "pronunciation": "/bəˈtøːð/",
+    "example": "Det betød, at man ikke måtte spise kød.",
+    "examplePersian": "این به این معنا بود که نمی‌توانستید گوشت بخورید.",
+    "cachedAt": "2025-12-24T15:21:17.627Z"
+  },
+  "faste": {
+    "word": "faste",
+    "persian": "روزه",
+    "pronunciation": "/ˈfɑstə/",
+    "example": "I skal faste i 40 dage.",
+    "examplePersian": "شما باید 40 روز روزه بگیرید.",
+    "cachedAt": "2025-12-24T15:21:53.559Z"
+  },
+  "længere": {
+    "word": "længere",
+    "persian": "طولانی‌تر",
+    "pronunciation": "/ˈlɛŋˀəʁ/",
+    "example": "At faste betyder, at man i kortere eller længere perioder ikke spiser eller drikker noget.",
+    "examplePersian": "روزهداری به این معنی است که در دوره‌های کوتاه‌تر یا طولانی‌تر چیزی نمی‌خورید یا نمی‌نوشید.",
+    "cachedAt": "2025-12-24T15:22:48.172Z"
+  },
+  "betyder": {
+    "word": "betyder",
+    "persian": "به معنای",
+    "pronunciation": "/ˈbe.tyː.ðɐʁ/",
+    "example": "At faste betyder, at man i kortere eller længere perioder ikke spiser eller drikker noget.",
+    "examplePersian": "روزهداری به معنای این است که در مدت زمان کوتاه یا طولانی چیزی نخورید یا نیاشامید.",
+    "cachedAt": "2025-12-24T15:24:30.164Z"
+  },
+  "perioder": {
+    "word": "perioder",
+    "persian": "دوره‌ها",
+    "pronunciation": "/peˈriːoːdʌr/",
+    "example": "At faste betyder, at man i kortere eller længere perioder ikke spiser eller drikker noget.",
+    "examplePersian": "روزهداری به این معنی است که در دوره‌های کوتاه‌تر یا بلندتر چیزی نمی‌خورید یا نمی‌نوشید.",
+    "cachedAt": "2025-12-24T15:24:39.245Z"
+  },
+  "sager": {
+    "word": "sager",
+    "persian": "خوراکی‌ها",
+    "pronunciation": "/ˈsæːɐ̯/",
+    "example": "Jeg kan godt lide søde sager.",
+    "examplePersian": "من خوراکی‌های شیرین را دوست دارم.",
+    "cachedAt": "2025-12-24T15:29:05.614Z"
+  },
+  "meget": {
+    "word": "meget",
+    "persian": "بسیار",
+    "pronunciation": "/ˈmeːð̩/",
+    "example": "Traditionerne omkring Faste lavn har naturligvis ændret sig meget siden da.",
+    "examplePersian": "سنت‌های مربوط به فاست لاون از آن زمان بسیار تغییر کرده‌اند.",
+    "cachedAt": "2025-12-24T15:32:27.026Z"
+  },
+  "søde": {
+    "word": "søde",
+    "persian": "شیرین",
+    "pronunciation": "/søːðə/",
+    "example": "Jeg elsker søde sager.",
+    "examplePersian": "من شیرینی‌ها را دوست دارم.",
+    "cachedAt": "2025-12-24T15:32:59.935Z"
+  },
+  "oprindeligt": {
+    "word": "Oprindeligt",
+    "persian": "در ابتدا",
+    "pronunciation": "/ˈopʁinˌleˀt/",
+    "example": "Oprindeligt var faste lavn en fest for voksne mennesker.",
+    "examplePersian": "در ابتدا، جشن فست لاون یک جشن برای بزرگسالان بود.",
+    "cachedAt": "2025-12-24T16:03:42.584Z"
+  },
+  "overdådigt": {
+    "word": "overdådigt",
+    "persian": "باشکوه",
+    "pronunciation": "/ˈoːvɐˌdɔːðɪt/",
+    "example": "Vi havde et overdådigt måltid til festen.",
+    "examplePersian": "ما یک وعده غذایی باشکوه برای جشن داشتیم.",
+    "cachedAt": "2025-12-24T16:04:56.257Z"
+  },
+  "rigeligt": {
+    "word": "rigeligt",
+    "persian": "کافی",
+    "pronunciation": "/ˈʁiːɡəˌleːt/",
+    "example": "Der var rigeligt med mad og drikke til festen.",
+    "examplePersian": "برای جشن، غذا و نوشیدنی کافی بود.",
+    "cachedAt": "2025-12-24T16:05:29.673Z"
+  },
+  "løssluppende": {
+    "word": "løssluppende",
+    "persian": "آزاد",
+    "pronunciation": "/ˈlœsˌslʊpənə/",
+    "example": "I denne tid var faste lavnsperioden en meget løssluppende tid.",
+    "examplePersian": "در این زمان، دورهٔ لوانس ثابت یک زمان بسیار آزاد بود.",
+    "cachedAt": "2025-12-24T16:07:05.735Z"
+  },
+  "galt": {
+    "word": "galt",
+    "persian": "معتبر بود",
+    "pronunciation": "ɡalt",
+    "example": "De almindelige normer ikke galt.",
+    "examplePersian": "معیارهای عمومی معتبر نبودند.",
+    "cachedAt": "2025-12-24T16:08:00.995Z"
+  },
+  "ens": {
+    "word": "ens",
+    "persian": "یکسان",
+    "pronunciation": "/eːns/",
+    "example": "Traditionerne er ens i hele landet.",
+    "examplePersian": "سنت‌ها در سرتاسر کشور یکسان هستند.",
+    "cachedAt": "2025-12-24T16:09:10.328Z"
+  },
+  "køleskab": {
+    "word": "køleskab",
+    "persian": "یخچال",
+    "pronunciation": "/ˈkøːləˌskæb/",
+    "example": "Jeg har et køleskab i mit køkken.",
+    "examplePersian": "من یک یخچال در آشپزخانه‌ام دارم.",
+    "cachedAt": "2025-12-24T16:11:10.183Z"
+  },
+  "puttede": {
+    "word": "puttede",
+    "persian": "گذاشتن",
+    "pronunciation": "/ɡʊˈzɒʃtæn/",
+    "example": "Man puttede katten i tønden.",
+    "examplePersian": "آنها گربه را در بشکه گذاشتند.",
+    "cachedAt": "2025-12-24T16:13:19.162Z"
+  },
+  "trækæppe": {
+    "word": "trækæppe",
+    "persian": "چوب ضربه زن",
+    "pronunciation": "/tʁɛˈkɛb̥ə/",
+    "example": "Han slog på tønden med trækæppe.",
+    "examplePersian": "او با چوب ضربه زن به تند ضربه زد.",
+    "cachedAt": "2025-12-24T16:13:37.360Z"
+  },
+  "tønden": {
+    "word": "tønden",
+    "persian": "بشکه",
+    "pronunciation": "/ˈtʌnˀn̩/",
+    "example": "Han satte sig på tønden.",
+    "examplePersian": "او روی بشکه نشسته است.",
+    "cachedAt": "2025-12-24T16:14:23.573Z"
+  },
+  "djævlen": {
+    "word": "djævlen",
+    "persian": "شیطان",
+    "pronunciation": "/ˈjɛvələn/",
+    "example": "Katten skulle symbolisere djævlen og det onde.",
+    "examplePersian": "گربه باید شیطان و شر را نمادین کند.",
+    "cachedAt": "2025-12-24T16:15:17.811Z"
+  },
+  "onde": {
+    "word": "onde",
+    "persian": "بد",
+    "pronunciation": "/ˈɔnə/",
+    "example": "Katten skulle symbolisere djævlen og det onde.",
+    "examplePersian": "گربه باید نماد شیطان و بدی باشد.",
+    "cachedAt": "2025-12-24T16:15:55.072Z"
+  },
+  "resulterer": {
+    "word": "resulterer",
+    "persian": "نتیجه می‌دهد",
+    "pronunciation": "/ʁeˈsulˌteːʁɐ/",
+    "example": "Den person, hvis slag resulterer i, at tøndens indhold falder ud.",
+    "examplePersian": "آن شخص که ضربه‌اش نتیجه می‌دهد که محتوای بشکه بریزد.",
+    "cachedAt": "2025-12-24T16:17:00.055Z"
+  },
+  "falder": {
+    "word": "falder",
+    "persian": "می‌ریزد",
+    "pronunciation": "/ˈfæl.ðɐʁ/",
+    "example": "Indholdet falder ud af tønden.",
+    "examplePersian": "محتوا از تن می‌ریزد.",
+    "cachedAt": "2025-12-24T16:17:16.748Z"
+  },
+  "ophængningen": {
+    "word": "ophængningen",
+    "persian": "آویزان کردن",
+    "pronunciation": "/oˈhɛŋn̩eŋ/",
+    "example": "Den person, der slår det allersidste bræt ned fra ophængningen.",
+    "examplePersian": "آن شخص که آخرین تخته را از آویزان کردن پایین می‌آورد.",
+    "cachedAt": "2025-12-24T16:18:01.447Z"
+  },
+  "allersidste": {
+    "word": "allersidste",
+    "persian": "آخرین",
+    "pronunciation": "/ˈælːɐˌsiːstə/",
+    "example": "Den person, der slår det allersidste bræt ned fra ophængningen.",
+    "examplePersian": "آن شخص که آخرین تخته را از آویزان کردن پایین می‌آورد.",
+    "cachedAt": "2025-12-24T16:19:26.052Z"
+  },
+  "bræt": {
+    "word": "bræt",
+    "persian": "تخته",
+    "pronunciation": "/bʁæt/",
+    "example": "Den person, der slår det allersidste bræt ned fra ophængningen.",
+    "examplePersian": "آن شخص که آخرین تخته را از آویزان کردن پایین می‌آورد.",
+    "cachedAt": "2025-12-24T16:19:42.204Z"
+  },
+  "kattedronning": {
+    "word": "kattedronning",
+    "persian": "ملکه گربه‌ها",
+    "pronunciation": "/ˈkætəˌdʁɔniŋ/",
+    "example": "Den person, der slår det allersidste bræt ned fra ophængningen, bliver kåret som kattedronning.",
+    "examplePersian": "شخصی که آخرین تخته را از آویزان کردن پایین می‌آورد، به عنوان ملکه گربه‌ها انتخاب می‌شود.",
+    "cachedAt": "2025-12-24T16:20:14.562Z"
+  },
+  "beundrer": {
+    "word": "beundrer",
+    "persian": "تحسین می‌کنند",
+    "pronunciation": "/beˈunʁɐ/",
+    "example": "Bagefter spiser alle børnene slikket fra tønden og beundrer hinandens udklædning.",
+    "examplePersian": "بعد از آن، همه بچه‌ها شیرینی‌های داخل بشکه را می‌خورند و به لباس‌های یکدیگر تحسین می‌کنند.",
+    "cachedAt": "2025-12-24T16:21:14.563Z"
+  },
+  "rasler": {
+    "word": "rasler",
+    "persian": "زنگ زدن",
+    "pronunciation": "/ˈʁɑs.lɐʁ/",
+    "example": "Børnene rasler med en beholder.",
+    "examplePersian": "بچه‌ها با یک ظرف زنگ می‌زنند.",
+    "cachedAt": "2025-12-24T16:24:05.203Z"
+  },
+  "tækker": {
+    "word": "tækker",
+    "persian": "گدایی می‌کنند",
+    "pronunciation": "/ˈtɛːkɐ/",
+    "example": "Her tækker børnene efter lidt småpenge, slik eller fastelavnsboller.",
+    "examplePersian": "اینجا بچه‌ها برای کمی پول خرد، شیرینی یا کلوچه‌های فستلاوانس گدایی می‌کنند.",
+    "cachedAt": "2025-12-24T16:24:41.777Z"
+  },
+  "dages": {
+    "word": "dages",
+    "persian": "روزها",
+    "pronunciation": "/ˈdæːɡəs/",
+    "example": "Vi skal faste i 40 dages tid.",
+    "examplePersian": "ما باید به مدت 40 روز روزه بگیریم.",
+    "cachedAt": "2025-12-24T16:28:54.965Z"
+  },
+  "lavn": {
+    "word": "lavn",
+    "persian": "روزهای جشنواره",
+    "pronunciation": "/lɑːvn/",
+    "example": "Vi skal have en fest til lavn.",
+    "examplePersian": "ما باید یک جشن برای روزهای جشنواره داشته باشیم.",
+    "cachedAt": "2025-12-24T16:29:30.984Z"
   }
 }

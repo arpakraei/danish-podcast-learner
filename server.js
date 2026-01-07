@@ -8,6 +8,8 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const { ensurePodcastAudio } = require("./src/audioCacheService");
+
 
 // 2️⃣ Create Express app
 const app = express();
@@ -17,6 +19,13 @@ const PORT = process.env.PORT || 3000;
 app.use(cors()); // Enable CORS for frontend-backend communication
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.static('public')); // Serve static files from 'public' folder
+// ====================================
+// Serve cached audio files
+// ====================================
+app.use(
+  "/audio",
+  express.static(path.join(__dirname, "data", "audio"))
+);
 
 // 4️⃣ Helper function: Load podcasts from JSON
 function loadPodcasts() {
@@ -90,41 +99,46 @@ app.get('/api/podcasts', (req, res) => {
 });
 
 // 9️⃣ API endpoint - Get specific podcast details
-app.get('/api/podcast/:id', (req, res) => {
+// ====================================
+// API: Get podcast details (with audio caching)
+// ====================================
+app.get("/api/podcast/:id", async (req, res) => {
   try {
     const podcastId = parseInt(req.params.id);
     const podcasts = loadPodcasts();
-    
-    // Find podcast by episode number
-    const podcast = podcasts.find(p => 
-      (p.episodeNumber === podcastId) || (p.id === podcastId)
+
+    const podcast = podcasts.find(
+      p => p.episodeNumber === podcastId || p.id === podcastId
     );
-    
+
     if (!podcast) {
-      return res.status(404).json({ 
-        error: 'Podcast not found',
-        message: `No podcast with ID ${podcastId}` 
-      });
+      return res.status(404).json({ error: "Podcast not found" });
     }
-    
-    console.log(`🎧 Serving podcast: ${podcast.title}`);
-    
+
+    // 🔑 Ensure audio is cached locally
+    const localAudioUrl = await ensurePodcastAudio(
+      podcastId,
+      podcast.audioUrl
+    );
+
     res.json({
-      id: podcast.episodeNumber || podcast.id,
+      id: podcastId,
       title: podcast.title,
-      text: podcast.transcript || 'متن در دسترس نیست',
-      audioUrl: podcast.audioUrl,
+      text: podcast.transcript || "متن در دسترس نیست",
+      audioUrl: localAudioUrl, // 👈 مهم
       duration: podcast.duration,
       date: podcast.date,
       url: podcast.url
     });
-    
+
   } catch (error) {
-    console.error('❌ Error in /api/podcast/:id:', error);
-    res.status(500).json({ error: 'Failed to load podcast details' });
+    console.error("❌ Podcast audio error:", error);
+    res.status(500).json({
+      error: "Failed to load podcast",
+      message: error.message
+    });
   }
 });
-
 // 🔟 API endpoint - Whisper transcription
 const { processAudioWithWhisper } = require('./src/whisperService');
 const { loadTranslation } = require('./src/translationService');
@@ -276,6 +290,84 @@ app.delete('/api/dictionary/saved/:word', (req, res) => {
     res.status(500).json({ error: 'Failed to remove word' });
   }
 });
+
+app.post("/api/dictionary/pronounce", async (req, res) => {
+  try {
+    const { word } = req.body;
+
+    if (!word) return res.status(400).json({ error: "No word provided" });
+
+    const audioBuffer = await getSpeech(word);
+
+    res.set({
+      "Content-Type": "audio/mpeg",
+      "Content-Length": audioBuffer.length
+    });
+
+    res.send(audioBuffer);
+  } catch (err) {
+    console.error("Pronounce Error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+// ===========================================
+//  API: extract important keywords of podcast
+//  GET /api/podcast/:id/keywords
+// ===========================================
+
+const { extractKeywordsFromSegments } = require('./src/keywordService');
+
+app.get('/api/podcast/:id/keywords', async (req, res) => {
+  try {
+    const podcastId = req.params.id;
+
+    console.log(`🧠 Extracting keywords for podcast ${podcastId}`);
+
+    // مسیر فایل transcript
+    const transcriptPath = path.join(
+      __dirname,
+      'data',
+      'transcripts',
+      `podcast_${podcastId}.json`
+    );
+
+    // فایل transcript باید قبلاً وجود داشته باشد
+    if (!fs.existsSync(transcriptPath)) {
+      return res.status(404).json({
+        error: 'Transcript not found',
+        message: `Transcript for podcast ${podcastId} does not exist.`
+      });
+    }
+
+    const transcript = JSON.parse(fs.readFileSync(transcriptPath, 'utf-8'));
+
+    if (!transcript.segments || transcript.segments.length === 0) {
+      return res.status(400).json({
+        error: 'Invalid transcript data',
+        message: 'Transcript has no segments'
+      });
+    }
+
+    // استخراج کلمات کلیدی
+    const keywords = extractKeywordsFromSegments(transcript.segments, 30);
+
+    console.log(`🔑 Found ${keywords.length} keywords`);
+
+    res.json({
+      podcastId,
+      count: keywords.length,
+      keywords
+    });
+
+  } catch (error) {
+    console.error('❌ Keyword extraction error:', error);
+    res.status(500).json({
+      error: 'Keyword extraction failed',
+      message: error.message
+    });
+  }
+});
+
 
 // 1️⃣2️⃣ Start the server
 app.listen(PORT, () => {
